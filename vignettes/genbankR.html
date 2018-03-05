@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Jose V. Die" />
+
+<meta name="date" content="2018-03-05" />
+
+<title>refseqR</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">refseqR</h1>
+<h4 class="author"><em>Jose V. Die</em></h4>
+<h4 class="date"><em>2018-03-05</em></h4>
+
+
+
+<ul>
+<li><a href="#0-introduction">Introduction</a></li>
+<li><a href="#1-mrna-summary">mRNA</a></li>
+<li><a href="#2-geneid-summary">GeneID</a></li>
+<li><a href="#3-protein-summary">Protein</a></li>
+<li><a href="#4-common-operations">Common operations</a></li>
+<li><a href="#5-concluding%20remarks">Concluding remarks</a></li>
+</ul>
+<div id="introduction" class="section level2">
+<h2>0. Introduction</h2>
+<p>This vignette shows a tutorial of how I have been using <code>refseqR</code> to automate some common processes of my research. The package <code>refseqR</code> is built on top of <code>rentrez</code>, the excellent library written by <strong>David Winter</strong> to query the NCBI’s API and fecth the resulting data.</p>
+<p>In short, <code>refseqR</code> provides summary information at three different levels:</p>
+<ul>
+<li>mRNA summary</li>
+<li>GeneID summary</li>
+<li>Protein summary</li>
+</ul>
+<p>At each of those levels we’ll find a number of functions to extract data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rentrez)</code></pre></div>
+</div>
+<div id="mrna-summary" class="section level2">
+<h2>1. mRNA summary</h2>
+<div id="mrna-info" class="section level3">
+<h3>1.1 mRNA info</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xm &lt;-<span class="st">  &quot;XM_020388824&quot;</span>
+mrna &lt;-<span class="st">  </span><span class="kw">entrez_summary</span>(<span class="dt">db=</span><span class="st">&quot;nuccore&quot;</span>, <span class="dt">id=</span> xm)
+mrna</code></pre></div>
+<pre><code>## esummary result with 31 items:
+##  [1] uid          caption      title        extra        gi          
+##  [6] createdate   updatedate   flags        taxid        slen        
+## [11] biomol       moltype      topology     sourcedb     segsetsize  
+## [16] projectid    genome       subtype      subname      assemblygi  
+## [21] assemblyacc  tech         completeness geneticcode  strand      
+## [26] organism     strain       biosample    statistics   properties  
+## [31] oslt</code></pre>
+<p> </p>
+<p>The mRNA summary contains 31 items. You may want to check every item. I am usually interested in some of them such as id, accession, title, update, or length (bp):</p>
+<pre><code>## [1] &quot;1150740591&quot;</code></pre>
+<pre><code>## [1] &quot;XM_020388824&quot;</code></pre>
+<pre><code>## [1] &quot;PREDICTED: Asparagus officinalis probable disease resistance protein At1g58602 (LOC109822593), transcript variant X2, mRNA&quot;</code></pre>
+<pre><code>## [1] &quot;2017/03/01&quot;</code></pre>
+<pre><code>## [1] 3314</code></pre>
+<pre><code>## [1] &quot;8|DH0086|male|Spear|Mature|Netherlands&quot;</code></pre>
+<p> </p>
+<p>We can also fetch the data from NCBI in Genbank format. Here, the first 30 lines:</p>
+<pre><code>##  [1] &quot;LOCUS       XM_020388824            3314 bp    mRNA    linear   PLN 01-MAR-2017&quot;
+##  [2] &quot;DEFINITION  PREDICTED: Asparagus officinalis probable disease resistance&quot;       
+##  [3] &quot;            protein At1g58602 (LOC109822593), transcript variant X2, mRNA.&quot;     
+##  [4] &quot;ACCESSION   XM_020388824&quot;                                                       
+##  [5] &quot;VERSION     XM_020388824.1&quot;                                                     
+##  [6] &quot;DBLINK      BioProject: PRJNA376608&quot;                                            
+##  [7] &quot;KEYWORDS    RefSeq.&quot;                                                            
+##  [8] &quot;SOURCE      Asparagus officinalis (garden asparagus)&quot;                           
+##  [9] &quot;  ORGANISM  Asparagus officinalis&quot;                                              
+## [10] &quot;            Eukaryota; Viridiplantae; Streptophyta; Embryophyta; Tracheophyta;&quot; 
+## [11] &quot;            Spermatophyta; Magnoliophyta; Liliopsida; Asparagales;&quot;             
+## [12] &quot;            Asparagaceae; Asparagoideae; Asparagus.&quot;                            
+## [13] &quot;COMMENT     MODEL REFSEQ:  This record is predicted by automated computational&quot; 
+## [14] &quot;            analysis. This record is derived from a genomic sequence&quot;           
+## [15] &quot;            (NC_033801.1) annotated using gene prediction method: Gnomon.&quot;      
+## [16] &quot;            Also see:&quot;                                                          
+## [17] &quot;                Documentation of NCBI's Annotation Process&quot;                     
+## [18] &quot;            &quot;                                                                   
+## [19] &quot;            ##Genome-Annotation-Data-START##&quot;                                   
+## [20] &quot;            Annotation Provider         :: NCBI&quot;                                
+## [21] &quot;            Annotation Status           :: Full annotation&quot;                     
+## [22] &quot;            Annotation Version          :: Asparagus officinalis Annotation&quot;    
+## [23] &quot;                                           Release 100&quot;                         
+## [24] &quot;            Annotation Pipeline         :: NCBI eukaryotic genome annotation&quot;   
+## [25] &quot;                                           pipeline&quot;                            
+## [26] &quot;            Annotation Software Version :: 7.3&quot;                                 
+## [27] &quot;            Annotation Method           :: Best-placed RefSeq; Gnomon&quot;          
+## [28] &quot;            Features Annotated          :: Gene; mRNA; CDS; ncRNA&quot;              
+## [29] &quot;            ##Genome-Annotation-Data-END##&quot;                                     
+## [30] &quot;FEATURES             Location/Qualifiers&quot;</code></pre>
+<p> </p>
+<p>I am interested in some features, for example plant sex, tissue, genotype, and the CDS coordinates. To obtain that info, <code>refseqR</code> comes with some functions:</p>
+<pre><code>* `extract_from_xm`
+* `extract_CDSfrom_xm`</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">target &lt;-<span class="st">  </span>mrna_gb
+<span class="kw">extract_from_xm</span>(mrna_gb, <span class="dt">feat =</span> <span class="st">&quot;tissue&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;Spear&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">extract_from_xm</span>(mrna_gb, <span class="dt">feat =</span> <span class="st">&quot;sex&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;male&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">extract_from_xm</span>(mrna_gb, <span class="dt">feat =</span> <span class="st">&quot;genotype&quot;</span>)</code></pre></div>
+<pre><code>## [1] &quot;DH0086&quot;</code></pre>
+<p> </p>
+<p>I usually need the coordinates of the CDS related to the mRNA molecule:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">extract_CDSfrom_xm</span>(target)</code></pre></div>
+<pre><code>## $startCDS
+## [1] 141
+## 
+## $stopCDS
+## [1] 2894</code></pre>
+<p> </p>
+<p>The CDS coordinates come in handy when we want to get the fasta sequence. We sometimes do not want the 5’UTR contained in the XM sequence and are interested just in the CDS.</p>
+<ul>
+<li>Here, the first 500 nucleotides of the mRNA:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mrna_fasta =<span class="st"> </span><span class="kw">entrez_fetch</span>(<span class="dt">db=</span><span class="st">&quot;nuccore&quot;</span>, <span class="dt">id=</span>xm, <span class="dt">rettype=</span><span class="st">&quot;fasta&quot;</span>)
+<span class="co"># take a look at the first 500 chars. </span>
+<span class="kw">cat</span>(<span class="kw">strwrap</span>(<span class="kw">substr</span>(mrna_fasta, <span class="dv">1</span>, <span class="dv">500</span>)), <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</code></pre></div>
+<pre><code>## &gt;XM_020388824.1 PREDICTED: Asparagus officinalis probable disease
+## resistance protein At1g58602 (LOC109822593), transcript variant
+## X2, mRNA
+## TCTAACGGTTTGATATCGATGATTTTCTTATGCCGCAAATGATACGTCTACCGCTACCGAAATATGAGCC
+## GTCGAAAACCAATAGAAAATGATGATCCCATTCACACTGGAAACGGAACGGAAACTTCAATAGAGACCAA
+## ATGTCAACGCGGCGAGTTCGAAAAACAAAAGGAAAAATCCCCAAAAAAAAAATTTCAGTGGAGAAGCTAG
+## GGCAGCTTTTGATTCAGGAAACCAAGTTCTTGTCCGAAATTGGAGGTGAAATCGAGTGGCTTCGAACTGA
+## GCTTCGATGGATGGAGAGCTTCCTCAAAGATGCAGATGCTAAGAGGAGGAAAGGGGATGAGAGGGTCAAG
+## AACTGG</code></pre>
+<ul>
+<li>Here, the first 500 nucleotides of the CDS:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">coord &lt;-<span class="st"> </span><span class="kw">extract_CDSfrom_xm</span>(target)
+cds &lt;-<span class="st"> </span><span class="kw">entrez_fetch</span>(<span class="dt">db=</span><span class="st">&quot;nuccore&quot;</span>, <span class="dt">id=</span>xm, <span class="dt">rettype=</span><span class="st">&quot;fasta&quot;</span>, 
+              <span class="dt">seq_start =</span> coord$startCDS, <span class="dt">seq_stop =</span> coord$stopCDS)
+<span class="co"># CDS fasta sequence (look at the first 500 chars)</span>
+<span class="kw">cat</span>(<span class="kw">strwrap</span>(<span class="kw">substr</span>(cds, <span class="dv">1</span>, <span class="dv">500</span>)), <span class="dt">sep=</span><span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</code></pre></div>
+<pre><code>## &gt;XM_020388824.1:141-2894 PREDICTED: Asparagus officinalis probable
+## disease resistance protein At1g58602 (LOC109822593), transcript
+## variant X2, mRNA
+## ATGTCAACGCGGCGAGTTCGAAAAACAAAAGGAAAAATCCCCAAAAAAAAAATTTCAGTGGAGAAGCTAG
+## GGCAGCTTTTGATTCAGGAAACCAAGTTCTTGTCCGAAATTGGAGGTGAAATCGAGTGGCTTCGAACTGA
+## GCTTCGATGGATGGAGAGCTTCCTCAAAGATGCAGATGCTAAGAGGAGGAAAGGGGATGAGAGGGTCAAG
+## AACTGGGTACGAGACGTTGCATACCAAGCCGAAGACGTTGTTGACCTCTTCTTCCTGCAGAATGATAGTA
+## AGCAAGGAGCAATAGCAGAGTTCTTCCGGAGCTACATTTGCTTTCTCTCTGATCTAGTGGGCCTCCAT</code></pre>
+<p> </p>
+<p>The function <code>save_CDSfasta_from_xms</code> uses the CDS coordinates to fetch the NCBI data, extract the CDS sequence and save it in a fasta file.</p>
+<p> </p>
+<p>Save nucleotide sequences into a FASTA file</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save_CDSfasta_from_xms</span>(cds, <span class="st">&quot;myfasta&quot;</span>)</code></pre></div>
+<p>The function <code>save_CDSfasta_from_xms</code> can create a single- or multi-fasta file as well.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xms =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;XM_020386193&quot;</span>, <span class="st">&quot;XM_020389493&quot;</span>, <span class="st">&quot;XM_020394534&quot;</span>)
+<span class="kw">save_CDSfasta_from_xms</span>(xms, <span class="st">&quot;myfastas&quot;</span>)</code></pre></div>
+</div>
+</div>
+<div id="geneid-summary" class="section level2">
+<h2>2. GeneID summary</h2>
+<div id="geneid-info" class="section level3">
+<h3>2.1 GeneID info</h3>
+<p>From the mRNA sequence we can move forward. For example, we could get a number of features from the gene. The <code>rentrez</code> library allows us to get every single URL link from a given ID to query the NCBI.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mrna_links &lt;-<span class="st"> </span><span class="kw">entrez_link</span>(<span class="dt">dbfrom =</span> <span class="st">&quot;nuccore&quot;</span>, <span class="dt">id =</span> xm, <span class="dt">db =</span> <span class="st">&quot;all&quot;</span>)
+
+mrna_links$links</code></pre></div>
+<pre><code>## elink result with information from 8 databases:
+## [1] nuccore_bioproject            nuccore_mrna_nuccore         
+## [3] nuccore_nuccore_mrnaonly      nuccore_protein              
+## [5] nuccore_taxonomy              nuccore_bioproject_transcript
+## [7] nuccore_gene                  nuccore_sparcle_mrna</code></pre>
+<p>In this example, the accession XM_020388824 has 8 links to NCBI databases. One interesting database (db) is the Protein db. The URL link to connect with the protein db is:</p>
+<p><strong>Protein id link</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mrna_links$links$nuccore_protein</code></pre></div>
+<pre><code>## [1] &quot;1150740592&quot;</code></pre>
+<p> </p>
+<p>We will use that id to take a look at the info contained at the protein db <a href="#31-protein-info">later</a> in this tutorial. But first, let’s go through another very interesting db: Gene db.</p>
+<p><strong>Gene id link</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mrna_links$links$nuccore_gene</code></pre></div>
+<pre><code>## [1] &quot;109822593&quot;</code></pre>
+<p>We access the content in two steps:</p>
+<ul>
+<li>get the database link</li>
+<li>get the info summary for that link</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the geneID for the mRNA</span>
+gene_id &lt;-<span class="st"> </span>mrna_links$links$nuccore_gene</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># use the geneID to connect with the Gene db and get the summary</span>
+gene &lt;-<span class="st"> </span><span class="kw">entrez_summary</span>(<span class="dt">db =</span> <span class="st">&quot;gene&quot;</span>, <span class="dt">id =</span> gene_id)
+gene</code></pre></div>
+<pre><code>## esummary result with 20 items:
+##  [1] uid                name               description       
+##  [4] status             currentid          chromosome        
+##  [7] geneticsource      maplocation        otheraliases      
+## [10] otherdesignations  nomenclaturesymbol nomenclaturename  
+## [13] nomenclaturestatus mim                genomicinfo       
+## [16] geneweight         summary            chrsort           
+## [19] chrstart           organism</code></pre>
+</div>
+<div id="acessing-the-geneid-info" class="section level3">
+<h3>2.2 Acessing the GeneID info</h3>
+<p>Now, there is a number of items that I want to keep for my records:</p>
+<ul>
+<li>Info related to the LOC symbol and gene description.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene$name</code></pre></div>
+<pre><code>## [1] &quot;LOC109822593&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene$description</code></pre></div>
+<pre><code>## [1] &quot;probable disease resistance protein At1g58602&quot;</code></pre>
+<p> </p>
+<ul>
+<li>Info related to the chromosome, start/end coordinates and exon number.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene$chromosome  </code></pre></div>
+<pre><code>## [1] &quot;8&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene$genomicinfo  </code></pre></div>
+<pre><code>##   chrloc   chraccver chrstart chrstop exoncount
+## 1      8 NC_033801.1  9494840 9499026         3</code></pre>
+<p> </p>
+<ul>
+<li>Info related to the species: scientific/common name, and taxon ID.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene$organism$scientificname</code></pre></div>
+<pre><code>## [1] &quot;Asparagus officinalis&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene$organism$commonname</code></pre></div>
+<pre><code>## [1] &quot;garden asparagus&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gene$organism$taxid</code></pre></div>
+<pre><code>## [1] 4686</code></pre>
+</div>
+</div>
+<div id="protein-summary" class="section level2">
+<h2>3. Protein summary</h2>
+<div id="protein-info" class="section level3">
+<h3>3.1 Protein info</h3>
+<p>Earlier in the tutorial (<a href="#21-geneid-info">section 2.1</a>) we got the protein id for the mRNA sequence accession XM_020388824.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">protein_id &lt;-<span class="st"> </span>mrna_links$links$nuccore_protein</code></pre></div>
+<p>Now, we can use that id to extract the info summary for the link.</p>
+<pre><code>## esummary result with 30 items:
+##  [1] uid          caption      title        extra        gi          
+##  [6] createdate   updatedate   flags        taxid        slen        
+## [11] biomol       moltype      topology     sourcedb     segsetsize  
+## [16] projectid    genome       subtype      subname      assemblygi  
+## [21] assemblyacc  tech         completeness geneticcode  strand      
+## [26] organism     strain       statistics   properties   oslt</code></pre>
+</div>
+<div id="acessing-the-protein-info" class="section level3">
+<h3>3.2 Acessing the Protein info</h3>
+<p>The protein summary contains 30 items. You may want to check every item. I am usually interested in some of them such as :</p>
+<ul>
+<li>Protein description</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">protein$title</code></pre></div>
+<pre><code>## [1] &quot;putative disease resistance protein At1g50180 isoform X2 [Asparagus officinalis]&quot;</code></pre>
+<ul>
+<li>Protein accession</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">protein$caption</code></pre></div>
+<pre><code>## [1] &quot;XP_020244413&quot;</code></pre>
+<ul>
+<li>Protein update</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">protein$updatedate</code></pre></div>
+<pre><code>## [1] &quot;2017/03/01&quot;</code></pre>
+<ul>
+<li>Protein length (aa)</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">protein$slen</code></pre></div>
+<pre><code>## [1] 917</code></pre>
+<ul>
+<li>Database</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">protein$sourcedb</code></pre></div>
+<pre><code>## [1] &quot;refseq&quot;</code></pre>
+<p> </p>
+<p>We can also fetch the data from NCBI. Here, the first 30 lines:</p>
+<pre><code>```r
+protein_gb &lt;- entrez_fetch(db= 'protein', id = protein_id, rettype = 'gp') 
+strsplit(protein_gb, &quot;\n&quot;)[[1]][1:30]
+```
+
+```
+##  [1] &quot;LOCUS       XP_020244413             917 aa            linear   PLN 01-MAR-2017&quot;
+##  [2] &quot;DEFINITION  putative disease resistance protein At1g50180 isoform X2 [Asparagus&quot;
+##  [3] &quot;            officinalis].&quot;                                                      
+##  [4] &quot;ACCESSION   XP_020244413&quot;                                                       
+##  [5] &quot;VERSION     XP_020244413.1&quot;                                                     
+##  [6] &quot;DBLINK      BioProject: PRJNA376608&quot;                                            
+##  [7] &quot;DBSOURCE    REFSEQ: accession XM_020388824.1&quot;                                   
+##  [8] &quot;KEYWORDS    RefSeq.&quot;                                                            
+##  [9] &quot;SOURCE      Asparagus officinalis (garden asparagus)&quot;                           
+## [10] &quot;  ORGANISM  Asparagus officinalis&quot;                                              
+## [11] &quot;            Eukaryota; Viridiplantae; Streptophyta; Embryophyta; Tracheophyta;&quot; 
+## [12] &quot;            Spermatophyta; Magnoliophyta; Liliopsida; Asparagales;&quot;             
+## [13] &quot;            Asparagaceae; Asparagoideae; Asparagus.&quot;                            
+## [14] &quot;COMMENT     MODEL REFSEQ:  This record is predicted by automated computational&quot; 
+## [15] &quot;            analysis. This record is derived from a genomic sequence&quot;           
+## [16] &quot;            (NC_033801.1) annotated using gene prediction method: Gnomon.&quot;      
+## [17] &quot;            Also see:&quot;                                                          
+## [18] &quot;                Documentation of NCBI's Annotation Process&quot;                     
+## [19] &quot;            &quot;                                                                   
+## [20] &quot;            ##Genome-Annotation-Data-START##&quot;                                   
+## [21] &quot;            Annotation Provider         :: NCBI&quot;                                
+## [22] &quot;            Annotation Status           :: Full annotation&quot;                     
+## [23] &quot;            Annotation Version          :: Asparagus officinalis Annotation&quot;    
+## [24] &quot;                                           Release 100&quot;                         
+## [25] &quot;            Annotation Pipeline         :: NCBI eukaryotic genome annotation&quot;   
+## [26] &quot;                                           pipeline&quot;                            
+## [27] &quot;            Annotation Software Version :: 7.3&quot;                                 
+## [28] &quot;            Annotation Method           :: Best-placed RefSeq; Gnomon&quot;          
+## [29] &quot;            Features Annotated          :: Gene; mRNA; CDS; ncRNA&quot;              
+## [30] &quot;            ##Genome-Annotation-Data-END##&quot;
+```</code></pre>
+<p> </p>
+<p>I am usually interested in the molecular weight of the protein. The following function will do the job:</p>
+<pre><code>* `extract_mol.wt_from_xp`</code></pre>
+<p>Now, we can get the molecular weigh (in Daltons):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">extract_mol.wt_from_xp</span>(protein_gb)</code></pre></div>
+<pre><code>## [1] 104178</code></pre>
+<p> </p>
+<p>We may want to download the amino acid sequence into a fasta file.</p>
+<pre><code>## &gt;XP_020244413.1 putative disease resistance protein At1g50180
+## isoform X2 [Asparagus officinalis]
+## MSTRRVRKTKGKIPKKKISVEKLGQLLIQETKFLSEIGGEIEWLRTELRWMESFLKDADAKRRKGDERVK
+## NWVRDVAYQAEDVVDLFFLQNDSKQGAIAEFFRSYICFLSDLVGLHELGVEISQIKSKVLRICESRDAYG
+## IVSLSESREQSSYSAVDAMLQVRRQSSPHLDDDMVVVGFDTYKQFILELLLDTNIARRCVISIVGMGGLG
+## KTTLATMVYNSSEVETHFSICAWITVSQDYRVSELLKNIMKRVMGTVFTGEHYERLENLEEDELKSKLYN
+## FLKQTRYLIVLDDIWAQEAWEQIKAAFPNAKNGSRVLLTTRLMDVARSADPRVPPYELPFLTHEQSWELF
+## LKKAFPSDQDFTPSCPKELEELGHEIVKRCGGLPLAVVVLGGLLSRKE</code></pre>
+<p>Similarly to nucleotide sequences, we can define a function to create a fasta file with the amino acids of a vector of XP proteins:</p>
+<p>Save aa sequences into a FASTA file:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xps =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;XP_020271897&quot;</span>, <span class="st">&quot;XP_020271898&quot;</span>, <span class="st">&quot;XP_020271899&quot;</span>)
+<span class="kw">save_AAfasta_from_xps</span>(xps, <span class="st">&quot;myAAfastas&quot;</span>)</code></pre></div>
+</div>
+<div id="common-operations" class="section level3">
+<h3>4. Common operations</h3>
+<p>When working with refseq accessions, there is a number of common operations that can be performed in a programmatically way.</p>
+<pre><code>* Convert XM --&gt; XP
+* Convert XP --&gt; XM
+* Convert LOC --&gt; XP
+* Convert LOC --&gt; XM </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xm &lt;-<span class="st">  &quot;XM_020388824&quot;</span>
+<span class="kw">getXP</span>(xm)</code></pre></div>
+<pre><code>## [1] &quot;XP_020244413&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xp &lt;-<span class="st">  &quot;XP_020244413&quot;</span>
+<span class="kw">getXM</span>(xp)</code></pre></div>
+<pre><code>## [1] &quot;XM_020388824&quot;</code></pre>
+<p>The Gene db at Genbank provides a symbol that is constructed with the prefix ‘LOC’. You may want to read the <a href="https://www.ncbi.nlm.nih.gov/books/NBK3840/">Gene Help</a> for more information.<br />
+Another common operation is to switch between LOC symbols, and XP, or XM accessions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">locIds =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;LOC101515097&quot;</span>, <span class="st">&quot;LOC101515098&quot;</span>, <span class="st">&quot;LOC101515099&quot;</span>)
+<span class="kw">getXPfromLOC</span>(locIds)</code></pre></div>
+<pre><code>## [1] &quot;XP_004495855&quot; &quot;XP_004515819&quot; &quot;XP_004515900&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getXMfromLOC</span>(locIds)</code></pre></div>
+<pre><code>## [1] &quot;XM_004495798&quot; &quot;XM_004515762&quot; &quot;XM_004515843&quot;</code></pre>
+</div>
+<div id="concluding-remarks" class="section level3">
+<h3>5. Concluding Remarks</h3>
+<p>This tutorial is based on <code>rentrez</code> packg. On top of it, ’refseqR`contains a number of functions to programmatically automatize some common operations.</p>
+<p>Functions to extract features from XM Genbank format</p>
+<ul>
+<li><code>extract_from_xm</code></li>
+<li><code>extract_CDSfrom_xm</code></li>
+<li><code>save_CDSfasta_from_xms</code></li>
+</ul>
+<p>Functions to extract features from XP Genbank format</p>
+<ul>
+<li><code>extract_mol.wt_from_xp</code></li>
+<li><code>save_AAfasta_from_xps</code></li>
+</ul>
+<p>Common operations</p>
+<ul>
+<li><code>getXP</code></li>
+<li><code>getXM</code></li>
+<li><code>getXPfromLOC</code></li>
+<li><code>getXMfromLOC</code></li>
+</ul>
+<p>Córdoba, (Spain), 2018-03-05.</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
