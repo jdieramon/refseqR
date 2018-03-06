@@ -1,3 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1188463.svg)](https://doi.org/10.5281/zenodo.1188463)
+[![DOI](https://zenodo.org/badge/123724326.svg)](https://zenodo.org/badge/latestdoi/123724326)
+
 # refseqR
 Common computational operations working with GenBank (RefSeq accessions, NCBI)
