@@ -21,11 +21,10 @@ First, get the character vector containing the fetched record. Then, this
 function parses the fectched record and returns the molecular weight.
 }
 \examples{
-xp <-  "XP_020244413"
+xp <- "XP_020244413"
 # First, get the character vector containing the fetched record
 protein_gb <- rentrez::entrez_fetch(db = "protein", id = xp, rettype = "gp")
 extract_mol.wt_from_xp(protein_gb)
-
 }
 \seealso{
 \code{\link[rentrez]{entrez_fetch}}

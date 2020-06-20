@@ -14,9 +14,8 @@ Returns a character vector containing the XP accession from a from a single /
 multiple LOC symbols.
 }
 \examples{
-locIDs = c("LOC101515097", "LOC101515098", "LOC101515099")
+locIDs <- c("LOC101515097", "LOC101515098", "LOC101515099")
 getXPfromLOC(locIDs)
-
 }
 \author{
 Jose V. Die
