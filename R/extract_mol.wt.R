@@ -18,34 +18,35 @@
 #' function parses the fectched record and returns the molecular weight.
 #'
 #' @examples
-#' xp <-  "XP_020244413"
+#' xp <- "XP_020244413"
 #' # First, get the character vector containing the fetched record
 #' protein_gb <- rentrez::entrez_fetch(db = "protein", id = xp, rettype = "gp")
 #' extract_mol.wt_from_xp(protein_gb)
-#'
 #' @author Jose V. Die
 #' @export
 
 
-extract_mol.wt_from_xp <- function(listName, feat ="calculated_mol_wt") {
-    mol_wt = 0 # keep track of success
-    listName = strsplit(listName, "\n")
-    for(i in seq(listName[[1]])) {
+extract_mol.wt_from_xp <- function(listName, feat = "calculated_mol_wt") {
+    mol_wt <- 0 # keep track of success
+    listName <- strsplit(listName, "\n")
+    for (i in seq(listName[[1]])) {
         val <- listName[[1]][i]
-        #remove whitespaces from the string
-        val = gsub(" ", "", val)
-        #remove "/" symbol from the string
-        val = gsub("/", "", val)
+        # remove whitespaces from the string
+        val <- gsub(" ", "", val)
+        # remove "/" symbol from the string
+        val <- gsub("/", "", val)
         # split the string from "="
-        val = strsplit(val, "=")
+        val <- strsplit(val, "=")
 
-        if(feat %in% val[[1]][1]) {
+        if (feat %in% val[[1]][1]) {
             # 2nd element of the list contains the mol.wt
             return(as.numeric(val[[1]][2]))
-            mol_wt = mol_wt+1
+            mol_wt <- mol_wt + 1
         }
     }
     # Defensive Programming
     # if the loop reaches the last entry of the list and couldn´t find the 'feat', return 0
-    if(i == length(listName[[1]]) & mol_wt == 0) {return(0)}
+    if (i == length(listName[[1]]) & mol_wt == 0) {
+        return(0)
+    }
 }
