@@ -12,6 +12,8 @@ Imports:
     rentrez
 LazyData: true
 RoxygenNote: 6.0.1
-Suggests: knitr,
-    rmarkdown
+Suggests: 
+    knitr,
+    rmarkdown,
+    BiocStyle
 VignetteBuilder: knitr
