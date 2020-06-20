@@ -1,0 +1,521 @@
+---
+title: "refseqR"
+author: "Jose V. Die"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{refseqR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+ * [Introduction](#0-introduction)
+ * [mRNA](#1-mrna-summary)
+ * [GeneID](#2-geneid-summary)
+ * [Protein](#3-protein-summary)
+ * [Common operations](#4-common-operations)
+ * [Concluding remarks](#5-concluding remarks)
+  
+  
+## 0. Introduction
+
+This vignette shows a tutorial of how I have been using `refseqR` to automate some common processes of my research. The package `refseqR` is built on top of `rentrez`, the excellent library written by **David Winter** to query the NCBI's API and fecth the resulting data.   
+
+In short, `refseqR` provides summary information at three different levels:   
+  
+  * mRNA summary
+  * GeneID summary
+  * Protein summary
+  
+   
+At each of those levels we'll find a number of functions to extract data.   
+```{r message=FALSE}
+library(rentrez)
+```
+
+## 1. mRNA summary
+### 1.1 mRNA info
+```{r }
+xm <-  "XM_020388824"
+mrna <-  entrez_summary(db="nuccore", id= xm)
+mrna
+```
+  
+&nbsp;  
+  
+The mRNA summary contains `r length(mrna)-1` items. You may want to check every item. I am usually interested in some of them such as id, accession, title, update, or length (bp): 
+
+```{r mrna_items, echo=FALSE, cache = TRUE}
+mrna$uid
+mrna$caption
+mrna$title
+mrna$updatedate
+mrna$slen
+mrna$subname
+```
+
+&nbsp;  
+
+We can also fetch the data from NCBI in Genbank format. Here, the first 30 lines:
+```{r, echo=FALSE, cache = TRUE}
+mrna_gb <- entrez_fetch(db= 'nuccore', id = xm, rettype = 'gp') 
+strsplit(mrna_gb, "\n")[[1]][1:30]
+```
+
+&nbsp;  
+
+I am interested in some features, for example plant sex, tissue, genotype, and the CDS coordinates. To obtain that info, `refseqR` comes with some functions: 
+    
+    * `extract_from_xm`
+    * `extract_CDSfrom_xm`
+    
+```{r echo=FALSE, cache = TRUE}
+extract_from_xm <- function(listName, feat = "tissue") {
+
+    # Defensive programming : check for allowed features
+    toMatch = c("sex", "tissue", "genotype")
+    if(!feat %in% toMatch) {
+        message("Error. Allowed features: 'sex','genotype, 'tissue'")
+
+        } else {
+        listName = strsplit(listName, "\n")
+        for(i in seq(listName[[1]])) {
+            val <- listName[[1]][i]
+            #remove whitespaces from the string
+            val = gsub(" ", "", val)
+            #remove "/" symbol from the string
+            val = gsub("/", "", val)
+
+            # Check for lengths of allowed features
+            if(length(grep(paste(toMatch, collapse = "|"), val, value = TRUE))>0) {
+                if(substr(val,1,6)== feat) {
+                    val = strsplit(val, "\"")
+                    print(val[[1]][2])
+                }
+                if(substr(val,1,3)== feat) {
+                    val = strsplit(val, "\"")
+                    print(val[[1]][2])
+                }
+                if(substr(val,1,8)== feat) {
+                    val = strsplit(val, "\"")
+                    print(val[[1]][2])
+                }
+
+            }
+
+        }
+    }
+}
+
+extract_CDSfrom_xm <- function(listName) {
+
+        listName = strsplit(listName, "\n")
+        for(i in seq(listName[[1]])) {
+            val <- listName[[1]][i]
+            #remove whitespaces from the string
+            val = gsub(" ", "", val)
+
+            # check for feature
+            if(substr(val, 1, 3) == "CDS") {
+                #remove characters "CDS" from the string
+                val = gsub("CDS", "", val)
+                #remove special symbols "..." from the string
+                val = strsplit(val, "[..]")
+                #elements 1-3 of the list contain the start/stop coordinates
+                start = as.numeric(val[[1]][1])
+                stop = as.numeric(val[[1]][3])
+                cds = list(startCDS = start, stopCDS = stop)
+
+                # return for downstream analysis
+                return(cds)
+        }
+
+    }
+}
+
+```
+
+```{r extract_feat1, cache = TRUE}
+target <-  mrna_gb
+extract_from_xm(mrna_gb, feat = "tissue")
+extract_from_xm(mrna_gb, feat = "sex")
+extract_from_xm(mrna_gb, feat = "genotype")
+```
+
+&nbsp;  
+
+I usually need the coordinates of the CDS related to the mRNA molecule:
+```{r extract_feat2, cache = TRUE}
+extract_CDSfrom_xm(target)
+```
+
+&nbsp;  
+
+The CDS coordinates come in handy when we want to get the fasta sequence. We sometimes do not want the 5'UTR contained in the XM sequence and are interested just in the CDS. 
+  
+  * Here, the first 500 nucleotides of the mRNA: 
+```{r cache = TRUE} 
+mrna_fasta = entrez_fetch(db="nuccore", id=xm, rettype="fasta")
+# take a look at the first 500 chars. 
+cat(strwrap(substr(mrna_fasta, 1, 500)), sep="\n")
+```
+ * Here, the first 500 nucleotides of the CDS:
+```{r cache = TRUE}
+coord <- extract_CDSfrom_xm(target)
+cds <- entrez_fetch(db="nuccore", id=xm, rettype="fasta", 
+              seq_start = coord$startCDS, seq_stop = coord$stopCDS)
+# CDS fasta sequence (look at the first 500 chars)
+cat(strwrap(substr(cds, 1, 500)), sep="\n")
+```
+
+&nbsp;  
+
+The function `save_CDSfasta_from_xms` uses the CDS coordinates to fetch the NCBI data, extract the CDS sequence and save it in a fasta file. 
+
+```{r saveCDS, echo = FALSE}
+save_CDSfasta_from_xms <- function(xmsIds, nameFile) {
+    for(i in seq(length(xmsIds))) {
+        target = entrez_fetch(db="nuccore", id=xmsIds[i], rettype="gp")
+        coord = extract_CDS_from_xm(target, feat = "CDS")
+        cds = entrez_fetch(db="nucleotide", id=xmsIds[i], rettype="fasta", 
+                           seq_start = coord$startCDS, seq_stop = coord$stopCDS)
+        
+        # save nucleotide sequences into a FASTA file ("nameFile"")
+        write(cds, file= paste(nameFile, ".fasta", sep = ""), append = TRUE)
+    }
+}
+    
+```
+
+&nbsp;  
+
+Save nucleotide sequences into a FASTA file
+```{r eval=FALSE}
+save_CDSfasta_from_xms(cds, "myfasta")
+```
+
+The function `save_CDSfasta_from_xms` can create a single- or multi-fasta file as well. 
+```{r eval= FALSE}
+xms = c("XM_020386193", "XM_020389493", "XM_020394534")
+save_CDSfasta_from_xms(xms, "myfastas")
+```
+
+## 2. GeneID summary
+### 2.1 GeneID info 
+From the mRNA sequence we can move forward. For example, we could get a number of features from the gene. The `rentrez` library allows us to get every single URL link from a given ID to query the NCBI. 
+```{r links,  cache = TRUE}
+mrna_links <- entrez_link(dbfrom = "nuccore", id = xm, db = "all")
+
+mrna_links$links
+```
+
+In this example, the accession `r xm` has `r length(mrna_links$links)` links to NCBI databases. One interesting database (db) is the Protein db. The URL link to connect with the protein db is: 
+
+**Protein id link**
+```{r}
+mrna_links$links$nuccore_protein
+```
+
+&nbsp;  
+
+We will use that id to take a look at the info contained at the protein db [later](#31-protein-info) in this tutorial. But first, let's go through another very interesting db: Gene db.  
+
+**Gene id link**
+```{r}
+mrna_links$links$nuccore_gene
+```
+We access the content in two steps:
+  
+ * get the database link
+ * get the info summary for that link
+ 
+```{r cache = TRUE}
+# get the geneID for the mRNA
+gene_id <- mrna_links$links$nuccore_gene
+```
+
+```{r cache = TRUE}
+# use the geneID to connect with the Gene db and get the summary
+gene <- entrez_summary(db = "gene", id = gene_id)
+gene
+```
+
+
+### 2.2 Acessing the GeneID info
+Now, there is a number of items that I want to keep for my records:   
+  
+  * Info related to the LOC symbol and gene description.
+ 
+```{r gene_info, cache = TRUE}
+gene$name
+gene$description
+```
+ 
+ &nbsp;  
+
+ * Info related to the chromosome, start/end coordinates and exon number.
+  
+```{r gene_info2, cache = TRUE}
+gene$chromosome  
+gene$genomicinfo  
+```
+
+&nbsp;  
+
+  * Info related to the species: scientific/common name, and taxon ID.
+  
+```{r gene_info3, cache = TRUE}
+gene$organism$scientificname
+gene$organism$commonname
+gene$organism$taxid
+```
+
+## 3. Protein summary
+### 3.1 Protein info
+
+Earlier in the tutorial ([section 2.1](#21-geneid-info)) we got the protein id for the mRNA sequence accession `r xm`. 
+```{r}
+protein_id <- mrna_links$links$nuccore_protein
+```
+Now, we can use that id to extract the info summary for the link.
+
+```{r echo = FALSE, cache = TRUE}
+protein <- entrez_summary(db = "protein", id = protein_id)
+protein
+```
+
+### 3.2 Acessing the Protein info
+
+The protein summary contains `r length(protein)-1` items. You may want to check every item. I am usually interested in some of them such as : 
+   
+   * Protein description
+```{r protein_info, cache = TRUE}
+protein$title
+```
+   * Protein accession
+```{r cache = TRUE}
+protein$caption
+```
+   * Protein update
+```{r cache = TRUE}
+protein$updatedate
+```
+ 
+   * Protein length (aa)
+```{r cache = TRUE}
+protein$slen
+```
+   
+   * Database
+```{r cache = TRUE}
+protein$sourcedb
+```
+
+&nbsp;  
+
+We can also fetch the data from NCBI. Here, the first 30 lines:
+    ```{r, cache = TRUE}
+protein_gb <- entrez_fetch(db= 'protein', id = protein_id, rettype = 'gp') 
+strsplit(protein_gb, "\n")[[1]][1:30]
+```
+
+&nbsp;  
+
+I am usually interested in the molecular weight of the protein. The following function will do the job:     
+      
+    * `extract_mol.wt_from_xp`
+    
+```{r mol.wt, echo = FALSE, cache = TRUE}
+extract_mol.wt_from_xp <- function(listName, feat ="calculated_mol_wt") {
+  mol_wt = 0 # keep track of success
+  listName = strsplit(listName, "\n")
+  for(i in seq(listName[[1]])) {
+    val <- listName[[1]][i] 
+    #remove whitespaces from the string
+    val = gsub(" ", "", val)
+    #remove "/" symbol from the string
+    val = gsub("/", "", val)
+    # split the string from "="
+    val = strsplit(val, "=")
+    
+    if(feat %in% val[[1]][1]) {
+      # 2nd element of the list contains the mol.wt 
+      return(as.numeric(val[[1]][2]))
+      mol_wt = mol_wt+1
+    }
+  }
+  # Defensive Programming
+  # if the loop reaches the last entry of the list and could not find the 'feat', return 0 
+  if(i == length(listName[[1]]) & mol_wt == 0) {return(0)} 
+
+  }
+```
+
+Now, we can get the molecular weigh (in Daltons):
+```{r cache = TRUE}
+extract_mol.wt_from_xp(protein_gb)
+```
+
+&nbsp;  
+
+We may want to download the amino acid sequence into a fasta file. 
+```{r echo = FALSE, cache = TRUE} 
+protein_fasta <- entrez_fetch(db="protein", id=protein_id, rettype="fasta")
+# take a look at the first 500 chars. 
+cat(strwrap(substr(protein_fasta, 1, 500)), sep="\n")
+```
+
+Similarly to nucleotide sequences, we can define a function to create a fasta file with the amino acids of a vector of XP proteins: 
+
+```{r saveAAfasta, echo = FALSE}
+save_AAfasta_from_xps <- function(xpsIds, nameFile) {
+    for(i in seq(length(xpsIds))) {
+        protein <- entrez_summary(db = "protein", id = xps[i])
+        protein_fasta <- entrez_fetch(db="protein", id=protein$uid, rettype="fasta")
+        # save amino acid sequences into a FASTA file ("nameFile"")
+        write(protein_fasta, file= paste(nameFile, ".fasta", sep = ""), append = TRUE)
+    }
+}
+```
+
+
+Save aa sequences into a FASTA file:
+```{r eval=FALSE}
+xps = c("XP_020271897", "XP_020271898", "XP_020271899")
+save_AAfasta_from_xps(xps, "myAAfastas")
+```
+
+### 4. Common operations
+When working with refseq accessions, there is a number of common operations that can be performed in a programmatically way.   
+    
+    * Convert XM --> XP
+    * Convert XP --> XM
+    * Convert LOC --> XP
+    * Convert LOC --> XM 
+  
+
+```{r xm_xp functions, echo = FALSE, cache = TRUE}
+
+getXP <- function(xm) {
+    # Get the protein elink.
+    protein_elink = rentrez::entrez_link(dbfrom = "nuccore", id = xm, db= "protein")
+    # Get the protein id
+    protein_id = protein_elink$links$nuccore_protein
+    # Get the item list for that protein id
+    protein = rentrez::entrez_summary(db = "protein", id = protein_id)
+    # Get the XP id
+    protein$caption
+
+}
+
+
+getXM <- function(xp) {
+    # Get the transcript elink.
+    transcript_elink = rentrez::entrez_link(dbfrom = "protein", id = xp, db= "nuccore")
+    # Get the transcript id
+    transcript_id = transcript_elink$links$protein_nuccore_mrna
+    # Get the item list for that transcript id
+    transcript = rentrez::entrez_summary(db = "nuccore", id = transcript_id)
+    # Get the XM id
+    transcript$caption
+
+}
+
+```
+
+```{r cache = TRUE}
+xm <-  "XM_020388824"
+getXP(xm)
+```
+
+```{r cache = TRUE}
+xp <-  "XP_020244413"
+getXM(xp)
+```
+
+The Gene db at Genbank provides a symbol that is constructed with the prefix 'LOC'. You may want to read the [Gene Help](https://www.ncbi.nlm.nih.gov/books/NBK3840/) for more information.   
+Another common operation is to switch between LOC symbols, and XP, or XM accessions. 
+
+```{r loc_xp functions, echo = FALSE, cache = TRUE}
+getXPfromLOC <- function(locIDs){
+    ncbi = character()                   # initializes a vector for XP ids
+    for(loc in locIDs) {
+        gene_id = gsub("LOC", "", loc)   # remove "LOC" to keep just the id
+        loc_links = rentrez::entrez_link(dbfrom = "gene", id = gene_id, db = "all")
+
+        # if the link has a protein, it is under: loc_links$links$gene_protein
+        if("gene_protein" %in% names(loc_links$links)) {
+            p_id = loc_links$links$gene_protein
+
+            # It may be > 1 protein
+            for(i in 1:length(p_id)) {
+                xp_summary = rentrez::entrez_summary(db = "protein", id = p_id[i])
+                xp = xp_summary$caption
+                ncbi = c(ncbi, xp)
+
+            }
+        } else {                        # if the link does not have any protein
+            ncbi = c(ncbi, "pseudo")
+            }
+    }
+
+    ncbi
+}
+
+```
+
+```{r loc_xm functions, echo = FALSE, cache = TRUE}
+getXMfromLOC <- function(locIDs){
+    ncbi = character()
+    for(loc in locIDs) {
+        gene_id = gsub("LOC", "", loc)       # remove "LOC" to keep just the id
+        loc_links = rentrez::entrez_link(dbfrom = "gene", id = gene_id, db = "all")
+
+        # if there is any mRNA ( = Gene type: protein coding)
+        if("gene_nuccore_refseqrna" %in% names(loc_links$links)) {
+            # the mRNA id is under the follwoing link:
+            mrna_id = loc_links$links$gene_nuccore_refseqrna #extract just the mRNA
+
+            # it may be > 1 mRNA
+            for(i in 1:length(mrna_id)) {
+                xm_summary = rentrez::entrez_summary(db = "nuccore", id = mrna_id[i])
+                ncbi = c(ncbi, xm_summary$caption)
+            }
+        } else {                  # If there is not any mRNA (Gene type: pseudo)
+            ncbi = c(ncbi, "pseudo")
+        }
+    }
+
+    ncbi
+}
+
+```
+
+```{r call functions2, cache = TRUE}
+locIds = c("LOC101515097", "LOC101515098", "LOC101515099")
+getXPfromLOC(locIds)
+getXMfromLOC(locIds)
+```
+
+### 5. Concluding Remarks
+This tutorial is based on `rentrez` packg. On top of it, 'refseqR`contains a number of functions to programmatically automatize some common operations.  
+
+Functions to extract features from XM Genbank format
+    
+  * `extract_from_xm`
+  * `extract_CDSfrom_xm`
+  * `save_CDSfasta_from_xms`
+
+Functions to extract features from XP Genbank format  
+  
+  * `extract_mol.wt_from_xp`
+  * `save_AAfasta_from_xps`
+  
+Common operations  
+  
+  * `getXP`
+  * `getXM`
+  * `getXPfromLOC`
+  * `getXMfromLOC`
+
+Córdoba, (Spain), `r Sys.Date()`.
