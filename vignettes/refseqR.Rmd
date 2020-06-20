@@ -2,7 +2,7 @@
 title: "refseqR"
 author: "Jose V. Die"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: BiocStyle::html_document
 vignette: >
   %\VignetteIndexEntry{refseqR}
   %\VignetteEngine{knitr::rmarkdown}
