@@ -15,6 +15,13 @@ save_CDSfasta_from_xms(xmsIds, nameFile)
 Parses a single/multiple XM acessions (Genbank format) and save
 the CDS nucleotide sequences into a single / multiple fasta file.
 }
+\examples{
+\dontrun{
+# xms <- c("XM_020386193", "XM_020389493", "XM_020394534")
+# save_CDSfasta_from_xms(xms, "my_CDS")
+}
+
+}
 \author{
 Jose V. Die
 }

@@ -15,6 +15,13 @@ save_AAfasta_from_xps(xpsIds, nameFile)
 Parses a single/multiple XP acessions (Genbank format) and save
 the amino acid sequences into a single / multiple fasta file.
 }
+\examples{
+\dontrun{
+# xps = c("XP_020271897", "XP_020271898", "XP_020271899")
+# save_AAfasta_from_xps(xps, "my_AA")
+}
+
+}
 \author{
 Jose V. Die
 }

@@ -16,13 +16,12 @@ Parses an XM acession (Genbank format) and extract some features provided by
 the user.
 }
 \examples{
-xm <-  "XM_020388824"
+xm <- "XM_020388824"
 # First, get the character vector containing the fetched record
-mrna_gb <- rentrez::entrez_fetch(db= 'nuccore', id = xm, rettype = 'gp')
+mrna_gb <- rentrez::entrez_fetch(db = "nuccore", id = xm, rettype = "gp")
 extract_from_xm(mrna_gb, feat = "sex")
 extract_from_xm(mrna_gb, feat = "genotype")
 extract_from_xm(mrna_gb, feat = "tissue")
-
 }
 \author{
 Jose V. Die

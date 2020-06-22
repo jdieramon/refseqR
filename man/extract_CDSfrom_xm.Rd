@@ -17,11 +17,10 @@ Parses an XM acession (Genbank format) and extract the CDS coordinates.
 The CDS coordinates refer to the mRNA molecule.
 }
 \examples{
-xm <-  "XM_020388824"
+xm <- "XM_020388824"
 # First, get the character vector containing the fetched record
-target <- rentrez::entrez_fetch(db= 'nuccore', id = xm, rettype = 'gp')
+target <- rentrez::entrez_fetch(db = "nuccore", id = xm, rettype = "gp")
 extract_CDSfrom_xm(target)
-
 }
 \author{
 Jose V. Die

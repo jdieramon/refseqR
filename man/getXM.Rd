@@ -13,9 +13,8 @@ getXM(xp)
 Returns the XM accession from a single XP accession.
 }
 \examples{
-xp <-  "XP_020244413"
+xp <- "XP_020244413"
 getXM(xp)
-
 }
 \author{
 Jose V. Die
