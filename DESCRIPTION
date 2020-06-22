@@ -1,17 +1,31 @@
-Package: refseqR
 Type: Package
+Package: refseqR
 Title: Common computational operations working with GenBank
 Version: 0.1.0
-Author: Jose V. Die <jodiera@upv.es>
-Maintainer: Jose V. Die <jodiera@upv.es>
-Description: refseqR fetches NCBI data (RefSeq database) and provides an environment to  
-    extract information at the level of Gene, mRNA or protein accessions. 
+Authors@R: 
+    c(person(given = "Jose",
+             family = "V Die",
+             role = c("aut", "cre"),
+             email = "jodiera@upv.es",
+             comment = c(ORCID = "0000-0002-7506-8590")),
+      person(given = "Lluís",
+             family = "Revilla Sancho",
+             role = "ctb",
+             email = "lluis.revilla@gmail.com",
+             comment = c(ORCID = "0000-0001-9747-2570")))
+Description: refseqR fetches NCBI data (RefSeq database)
+    and provides an environment to extract information at the level of
+    Gene, mRNA or protein accessions. 
 License: MIT + file LICENSE
-Encoding: UTF-8
+URL: https://github.com/jdieramon/refseqR
+BugReports: https://github.com/jdieramon/refseqR/issues
 Imports:
     rentrez
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
-Suggests: knitr,
-    rmarkdown
-VignetteBuilder: knitr
