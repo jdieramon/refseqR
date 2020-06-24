@@ -1,15 +1,11 @@
 #' Extract some features from an XM accession
 #'
-#' Parses an XM acession (Genbank format) and extract some features provided by
-#' the user.
+#' Parses an XM accession (Genbank format) and extract either sex, tissue or
+#' genotype.
 #'
-#' @usage
-#' extract_from_xm(listName, feat = "tissue")
-#' @param
-#' listName a downloaded flat file from the nuccore NCBI database
-#' @param
-#' feat a feature to be extracted. Allowed features include "sex", "tissue" or "genotype"
-#'
+#' @param listName a downloaded flat file from the nuccore NCBI database
+#' @param feat a feature to be extracted. Allowed features include "tissue",
+#' "sex", or "genotype". Default is tissue.
 #' @examples
 #' xm <- "XM_020388824"
 #' # First, get the character vector containing the fetched record
@@ -19,37 +15,32 @@
 #' extract_from_xm(mrna_gb, feat = "tissue")
 #' @author Jose V. Die
 #' @export
+extract_from_xm <- function(listName, feat = c("tissue", "sex", "genotype")) {
 
-extract_from_xm <- function(listName, feat = "tissue") {
-
-    # Defensive programming : check for allowed features
-    toMatch <- c("sex", "tissue", "genotype")
-    if (!feat %in% toMatch) {
-        message("Error. Allowed features: 'sex','genotype, 'tissue'")
-    } else {
-        listName <- strsplit(listName, "\n")
-        for (i in seq(listName[[1]])) {
-            val <- listName[[1]][i]
-            # remove whitespaces from the string
-            val <- gsub(" ", "", val)
-            # remove "/" symbol from the string
-            val <- gsub("/", "", val)
-
-            # Check for lengths of allowed features
-            if (length(grep(paste(toMatch, collapse = "|"), val, value = TRUE)) > 0) {
-                if (substr(val, 1, 6) == feat) {
-                    val <- strsplit(val, "\"")
-                    print(val[[1]][2])
-                }
-                if (substr(val, 1, 3) == feat) {
-                    val <- strsplit(val, "\"")
-                    print(val[[1]][2])
-                }
-                if (substr(val, 1, 8) == feat) {
-                    val <- strsplit(val, "\"")
-                    print(val[[1]][2])
-                }
-            }
+    # Check for allowed features
+    feat <- match.arg(feat)
+    # remove whitespaces from the string
+    listName <- gsub(" ", "", listName)
+    # remove "/" symbol from the string
+    listName <- gsub("/", "", listName)
+    # Remove quotes and protection for them
+    listName <- gsub('\\\"', "", listName)
+    # Split by line
+    listName <- strsplit(listName, "\n")
+    # Look up for the features
+    v <- vector("character", length(listName[[1]]))
+    for (i in seq(listName[[1]])) {
+        val <- listName[[1]][i]
+        # Skip if doesn't have key=value
+        if (!grepl("=", val)) {
+            next
+        }
+        # Check for features
+        if (grepl(paste(feat, collapse = "|"), val)) {
+            v[i] <- gsub(".+=(.+)$", "\\1", val)
         }
     }
+    # Return values (Assuming there can be several otherwise it can be faster)
+    v <- unique(v)
+    v[v != ""]
 }

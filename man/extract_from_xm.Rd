@@ -4,16 +4,17 @@
 \alias{extract_from_xm}
 \title{Extract some features from an XM accession}
 \usage{
-extract_from_xm(listName, feat = "tissue")
+extract_from_xm(listName, feat = c("tissue", "sex", "genotype"))
 }
 \arguments{
 \item{listName}{a downloaded flat file from the nuccore NCBI database}
 
-\item{feat}{a feature to be extracted. Allowed features include "sex", "tissue" or "genotype"}
+\item{feat}{a feature to be extracted. Allowed features include "tissue",
+"sex", or "genotype". Default is tissue.}
 }
 \description{
-Parses an XM acession (Genbank format) and extract some features provided by
-the user.
+Parses an XM accession (Genbank format) and extract either sex, tissue or
+genotype.
 }
 \examples{
 xm <- "XM_020388824"
