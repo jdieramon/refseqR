@@ -2,7 +2,7 @@
 % Please edit documentation in R/extract_CDS.R
 \name{extract_CDSfrom_xm}
 \alias{extract_CDSfrom_xm}
-\title{Extract the CDS coordinates from a XM accession}
+\title{Extract the coding sequences (CDS) coordinates from a XM accession}
 \usage{
 extract_CDSfrom_xm(listName)
 }
@@ -10,10 +10,11 @@ extract_CDSfrom_xm(listName)
 \item{listName}{a downloaded flat file from the nuccore NCBI database}
 }
 \value{
-the start / end CDS coordinates refer to the mRNA molecule
+An `IRanges` object with the start and end position of the CDS of the
+putative mRNA.
 }
 \description{
-Parses an XM acession (Genbank format) and extract the CDS coordinates.
+Parses an XM accession (Genbank format) and extract the CDS coordinates.
 The CDS coordinates refer to the mRNA molecule.
 }
 \examples{

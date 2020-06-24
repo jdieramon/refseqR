@@ -9,7 +9,8 @@ Description: refseqR fetches NCBI data (RefSeq database) and provides an environ
 License: MIT + file LICENSE
 Encoding: UTF-8
 Imports:
-    rentrez
+    rentrez,
+    IRanges
 LazyData: true
 RoxygenNote: 7.1.0
 Suggests: knitr,
