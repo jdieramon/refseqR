@@ -20,23 +20,19 @@ extract_from_xm <- function(listName, feat = c("tissue", "sex", "genotype")) {
     # Check for allowed features
     feat <- match.arg(feat)
     # remove whitespaces from the string
-    listName <- gsub(" ", "", listName)
+    listName <- gsub(" ", "", listName, fixed = TRUE)
     # remove "/" symbol from the string
-    listName <- gsub("/", "", listName)
+    listName <- gsub("/", "", listName, fixed = TRUE)
     # Remove quotes and protection for them
-    listName <- gsub('\\\"', "", listName)
+    listName <- gsub('\\\"', "", listName, fixed = TRUE)
     # Split by line
-    listName <- strsplit(listName, "\n")
+    listName <- strsplit(listName, "\n", fixed = TRUE)
     # Look up for the features
     v <- vector("character", length(listName[[1]]))
     for (i in seq(listName[[1]])) {
         val <- listName[[1]][i]
-        # Skip if doesn't have key=value
-        if (!grepl("=", val)) {
-            next
-        }
         # Check for features
-        if (grepl(paste(feat, collapse = "|"), val)) {
+        if (grepl(feat, val, fixed = TRUE)) {
             v[i] <- gsub(".+=(.+)$", "\\1", val)
         }
     }
