@@ -4,7 +4,7 @@
 #' The CDS coordinates refer to the mRNA molecule.
 #'
 #' @param listName a downloaded flat file from the nuccore NCBI database
-#' @return An IRanges object with the start and end position of the CDS of the
+#' @return An `IRanges` object with the start and end position of the CDS of the
 #' putative mRNA.
 #' @examples
 #' xm <- "XM_020388824"
