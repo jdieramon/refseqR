@@ -7,19 +7,23 @@
 refseq_CDScoords(xm)
 }
 \arguments{
-\item{xm}{a character string of the single/multiple XM id.}
+\item{xm}{A character string of the single/multiple XM id.}
 }
 \value{
 An \code{IRanges} object with the start and end position of the CDS of the
 putative mRNAs.
 }
 \description{
-Parses an XM accession (Genbank format) and extract the CDS coordinates.
+\code{refseq_CDScoords()} Parses an XM accession (Genbank format) and extract the CDS coordinates.
 The CDS coordinates refer to the mRNA molecule.
 }
 \examples{
-xm = c("XM_004487701", "XM_004488493", "XM_004501904")
+xm = c("XM_004487701")
 refseq_CDScoords(xm)
+
+\donttest{
+xm = c("XM_004487701", "XM_004488493")
+refseq_CDScoords(xm)}
 
 }
 \author{

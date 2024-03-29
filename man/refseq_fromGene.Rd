@@ -4,27 +4,31 @@
 \alias{refseq_fromGene}
 \title{Get the mRNA or protein accession}
 \usage{
-refseq_fromGene(gene_symbol,sequence)
+refseq_fromGene(gene_symbol,sequence, retries)
 }
 \arguments{
-\item{gene_symbol}{a character string of the gene symbol.}
+\item{gene_symbol}{A character string of the gene symbol.}
 
-\item{sequence}{a character string of the "XM" or "XP" to fetch data from mRNA or protein databases, respectively.}
+\item{sequence}{A character string of the "XM" or "XP" to fetch data from mRNA or protein databases, respectively.}
+
+\item{retries}{A numeric value to control the number of retry attempts to handle 502 errors.}
 }
 \value{
 A character vector containing the XP or XM id accessions corresponding to the especified \verb{gene symbol}.
 }
 \description{
-\code{refseq_fromGene} Returns the XP or XM accession from a single gene id. accession.
+\code{refseq_fromGene()} Returns the XP or XM accession from a single gene id. accession.
 }
 \examples{
+\donttest{
 # Get the XM accessions from a set of gene ids
-locs <- c("LOC101512347", "LOC101506901")
-sapply(locs, function(x) refseq_fromGene (x, sequence = "XM"), USE.NAMES = FALSE)
+locs <- c("LOC101512347")
+sapply(locs, function(x) refseq_fromGene (x, sequence = "XM", retries = 3), USE.NAMES = FALSE)
 
 # Get the XP accessions from a set of gene ids
-locs <- c("LOC101512347", "LOC101506901")
-sapply(locs, function(x) refseq_fromGene (x, sequence = "XP"), USE.NAMES = FALSE)
+locs <- c("LOC101512347")
+sapply(locs, function(x) refseq_fromGene (x, sequence = "XP", retries = 3), USE.NAMES = FALSE)}
+
 }
 \seealso{
 \code{\link{refseq_XMfromXP}} to obtain the XM ids that encode a set of XP ids.

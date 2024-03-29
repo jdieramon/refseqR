@@ -1,0 +1,171 @@
+---
+title: "Working with the RefSeq database"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working with the RefSeq database}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+Load the library.
+```{r setup}
+library(refseqR)
+```
+
+## 0. Introduction
+
+This vignette shows a tutorial of how I have been using `refseqR` to automate some common processes of my research. The package `refseqR` is built on top of `rentrez`, the excellent library written by **David Winter** to query the NCBI's API and fetch the resulting data.   
+
+In short, `refseqR` provides summary information at three different levels:   
+  
+  * Gene
+  * mRNA
+  * protein
+  
+&nbsp; 
+
+## 1. GeneID
+Given a gene symbol obtained from the 'Gene' database, the `refseqR` library enables us to retrieve the associated mRNA and protein accessions.
+```{r }
+gene_symbol <- c("LOC101512347")
+transcript <- refseq_fromGene(gene_symbol, sequence = "XM", retries = 3)
+protein <- refseq_fromGene(gene_symbol, sequence = "XP", retries = 3)
+```
+The mRNA transcript identifier (id) for `r gene_symbol` = `r transcript`.  
+  
+The protein identifier (id) for `r gene_symbol` = `r protein`. 
+  
+  &nbsp;  
+  
+Similarly, the function is effective when utilizing gene symbols that encode for multiple transcripts.
+```{r}
+gene_symbol <- c("LOC105852298")
+transcript <- refseq_fromGene(gene_symbol, sequence = "XM", retries = 3)
+protein <- refseq_fromGene(gene_symbol, sequence = "XP", retries = 3)
+```
+The mRNA transcript id(s) for `r gene_symbol` = `r transcript`.  
+The protein id(s) for `r gene_symbol` = `r protein`. 
+
+The function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a XM, XP, or Gene identifier
+```{r}
+id <- c("LOC101512347")
+refseq_description(id)
+```
+
+## 2. mRNA
+Using the `rentrez` package, we can fetch data from NCBI. Here, the first 30 lines for accession "XM_004487701" :
+
+```{r}
+mrna_gb <- rentrez::entrez_fetch(db= 'nuccore', id = "XM_004487701", rettype = 'gp') 
+strsplit(mrna_gb, "\n")[[1]][1:30]
+```
+
+The `refseq_fromXM` function serves as a wrapper built on top of 'entrez_summary' from the 'rentrez' package, designed to extract specific features from the obtained data. Typically, my focus lies on key features like id, accession, title, update, or sequence length (bp). However, you have the flexibility to tailor the function to extract additional features of interest from the `esummary_list` object.
+
+```{r}
+xm = c("XM_004487701", "XM_004488493", "XM_004501904")
+feat = c("caption", "moltype", "sourcedb", "slen", "title")
+refseq_fromXM(xm ,feat)
+```
+
+Another interesting function is `refseq_XPfromXM`, which retrieves the protein accession associated with the provided mRNA.
+```{r}
+xm <- "XM_004487701"
+refseq_XPfromXM(xm)
+```
+
+The CDS coordinates come in handy when we want to get the fasta sequence. We sometimes do not want the 5'UTR or 3'UTR contained in the mRNA sequence and are interested just in the CDS.     
+
+The function `refseq_CDScoords` creates an `IRanges` object with the CDS coordinates from an mRNA accession. The output object is the basis for `refseq_CDSseq`, which fetches the NCBI data, uses that coordinates and retuns a `DNAString` object with the CDS nucleotide sequence. 
+```{r}
+refseq_CDScoords(xm)
+refseq_CDSseq(xm)
+```
+Here, the first 500 nucleotides of the mRNA 'XM_004487701': 
+```{r} 
+mrna_fasta = rentrez::entrez_fetch(db="nuccore", id=xm, rettype="fasta")
+# take a look at the first 500 chars. 
+cat(strwrap(substr(mrna_fasta, 1, 500)), sep="\n")
+```
+Here, the first 60 nucleotides of the CDS from the mRNA 'XM_004487701': 
+```{r}
+substr(toString(refseq_CDSseq(xm)), 1, 60)
+```
+As previously said, the function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a XM, XP, or Gene identifier
+```{r}
+id <- "XM_004487701"
+refseq_description(id)
+```
+
+## 3. Protein
+
+Similarly to nucleotide sequences, `refseq_XMfromXP`, retrieves the mRNA associated with the provided protein accession.
+
+```{r}
+xp <- "XP_020244413"
+refseq_XMfromXP(xp)
+```
+
+Two specific functions prove useful for managing protein accessions: `refseq_XPlength` offers the amino acid length of the sequence, while `refseq_mol.wt` provides the molecular weight in Daltons.
+```{r}
+refseq_XPlength(xp)
+refseq_mol_wt(xp)
+```
+
+The `refseq_AAseq` function, fetches the NCBI data, and retuns a `DNAString` object with the amino acid sequence. 
+```{r}
+refseq_AAseq(xp)
+```
+
+
+As previously mentioned, the `refseq_description` function ultimately provides the sequence description associated with a given accession. The identifier (id) can take the form of either an gene, XM, or XP identifier.
+```{r}
+id <- "XP_020244413"
+refseq_description(id)
+```
+
+
+### 4. Concluding Remarks
+The package `refseqR` contains a number of functions to programmatically automatize some common operations.  
+
+Functions to apply on gene id. accessions 
+  
+  
+  * `refseq_description`
+  * `refseq_fromGene`
+  
+  
+Functions to apply on mRNA id. accessions 
+  
+    
+  * `refseq_geneSymbol`
+  * `refseq_CDScoords`
+  * `refseq_CDSseq`
+  * `refseq_XPfromXM`
+  
+
+
+Functions to apply on protein id. accessions 
+  
+  * `refseq_geneSymbol`
+  * `refseq_AAseq`
+  * `refseq_mol_wt`
+  * `refseq_XPlength`
+  * `refseq_XMfromXP`
+
+  
+
+
+I'd really appreciate your feedback. The whole code used in this tutorial is available from my **[Github](https://github.com/jdieramon)** repository. You can contact me by **[email](mailto:jose.die@uco.es)** or visit my **[website](https://jdieramon.github.io)**.    
+
+&nbsp; 
+&nbsp;
+
+Córdoba, (Spain), `r Sys.Date()`.
+

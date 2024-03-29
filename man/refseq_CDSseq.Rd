@@ -7,10 +7,10 @@
 refseq_CDSseq(xm)
 }
 \arguments{
-\item{xm}{a character string of the single/multiple XM id.}
+\item{xm}{A character string of the single/multiple XM id.}
 }
 \description{
-Parses a single/multiple XM acessions (Genbank format) and extract
+\code{refseq_CDSseq()} Parses a single/multiple XM acessions (Genbank format) and extract
 the CDS nucleotide sequences into a \code{DNAStringSet} object.
 }
 \examples{

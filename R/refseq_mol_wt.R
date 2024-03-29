@@ -1,11 +1,12 @@
 #' Extract the molecular weigth from an XP accession
 #'
-#' Parses an XP accession output (Genbank format) and extract the molecular weight
+#' `refseq_mol_wt()`Parses an XP accession output (Genbank format) and extract the molecular weight
 #' (in Daltons).
 #'
 #' @usage
 #' refseq_mol_wt(xp)
-#' @param xp a character string of the XP id.
+#'
+#' @param xp A character string of the XP id.
 #'
 #' @seealso \code{\link[rentrez]{entrez_fetch}}
 #'
@@ -19,22 +20,23 @@
 #'  refseq_mol_wt(xp)
 #'
 #'  # Get the molecular weight from from a set of XP accessions
-#'  xp = c("XP_004487758", "XP_004488550", "XP_004501961")
+#'  xp = c("XP_004487758", "XP_004488550")
 #'  sapply(xp, function(x) refseq_mol_wt(x), USE.NAMES = TRUE)
 #'
 #' @author Jose V. Die
+#'
 #' @export
 
 
 refseq_mol_wt <- function(xp) {
 
-    # Define the feature
-    feat = "calculated_mol_wt"
+  # Define the feature
+  feat = "calculated_mol_wt"
 
-    # Fetch the accession
-    listName <- rentrez::entrez_fetch(db = "protein", id = xp, rettype = "gp")
+  # Fetch the accession
+  listName <- rentrez::entrez_fetch(db = "protein", id = xp, rettype = "gp")
 
-    mol_wt <-  0 # keep track of success
+  mol_wt <-  0 # keep track of success
 
     listName <-  strsplit(listName, "\n")
 
@@ -56,6 +58,6 @@ refseq_mol_wt <- function(xp) {
     # Defensive Programming
     # if the loop reaches the last entry of the list and couldn´t find the 'feat', return 0
     if(i == length(listName[[1]]) & mol_wt == 0) {
-        return(0)
-    }
+      return(0)
+      }
 }

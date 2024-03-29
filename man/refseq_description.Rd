@@ -7,26 +7,27 @@
 refseq_description(id)
 }
 \arguments{
-\item{id}{a character string of the XP, XM, or Gene id.}
+\item{id}{A character string of the XP, XM, or Gene id.}
 }
 \value{
 A character vector containing the sequence description corresponding to the specified sequence as \code{id}.
 }
 \description{
-\code{refseq_description} Returns the sequence description from a single XM, XP, or Gene id. accession.
+\code{refseq_description()} Returns the sequence description from a single XM, XP, or Gene id. accession.
 }
 \examples{
  # Get the sequence descriptions from a set of XM accessions
- xm = c("XM_004487701", "XM_004488493")
+ xm = c("XM_004487701")
  sapply(xm, function(x) refseq_description(x), USE.NAMES = FALSE)
 
  # Get the sequence descriptions from a set of XP accessions
- xp = c("XP_004487758", "XP_004488550")
+ xp = c("XP_004487758")
  sapply(xp, function(x) refseq_description(x), USE.NAMES = FALSE)
 
-# Get the sequence descriptions from a set of Gene accessions
+\donttest{
+#' # Get the sequence descriptions from a set of Gene accessions
 locs <- c("LOC101512347", "LOC101506901")
-sapply(locs, function(x) refseq_description(x), USE.NAMES = FALSE)
+sapply(locs, function(x) refseq_description(x), USE.NAMES = FALSE)}
 
 }
 \seealso{

@@ -7,18 +7,18 @@
 refseq_AAseq(xp)
 }
 \arguments{
-\item{xp}{a character string containing a single/multiple XP ids.}
+\item{xp}{A character string containing a single/multiple XP ids.}
 }
 \description{
-Parses a single/multiple XP acessions (Genbank format) and extract
+\code{refseq_AAseq()} Parses a single/multiple XP accessions (GenBank format) and extract
 the amino acid sequences into a \code{AAStringSet} object.
 }
 \examples{
-\dontrun{
+\donttest{
 xp = c("XP_004487758", "XP_004488550", "XP_004501961")
-my_aa <- refseq_AAseq(xp)
-Now, the `AAStringSet` can be easily used to make a fasta file :
-writeXStringSet(x= my_aa, filepath = "aa_result")}
+my_aa <- refseq_AAseq(xp)}
+# Now, the `AAStringSet` can be easily used to make a fasta file :
+# writeXStringSet(x= my_aa, filepath = "aa_result")
 
 
 }

@@ -7,23 +7,23 @@
 refseq_geneSymbol (id, db)
 }
 \arguments{
-\item{id}{a character string of the XP or XM id.}
+\item{id}{A character string of the XP or XM id.}
 
-\item{db}{a character string of the "nuccore" or "protein" database.}
+\item{db}{A character string of the "nuccore" or "protein" database.}
 }
 \value{
 A character vector containing the gene symbol corresponding to the especified accession as \code{id}.
 }
 \description{
-\code{refseq_geneSymbol } Returns the gene symbol from a single Gene id. accession.
+\code{refseq_geneSymbol()} Returns the gene symbol from a single Gene id. accession.
 }
 \examples{
 # Get the gene symbol from a set of XM accessions
-xm = c("XM_004487701", "XM_004488493", "XM_004501904")
+xm = c("XM_004487701", "XM_004488493")
 sapply(xm, function(x) refseq_geneSymbol (x, db = "nuccore"), USE.NAMES = FALSE)
 
 # Get the gene symbol from a set of XP accessions
-xp = c("XP_004487758", "XP_004488550", "XP_004501961")
+xp = c("XP_004487758")
 sapply(xp, function(x) refseq_geneSymbol (x, db = "protein"), USE.NAMES = FALSE)
 
 }

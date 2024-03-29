@@ -7,22 +7,23 @@
 refseq_XPfromXM(xm)
 }
 \arguments{
-\item{xm}{a character string of the XP id.}
+\item{xm}{A character string of the XP id.}
 }
 \value{
 A character vector containing the XP id encoded by the XM especified as \code{xm}.
 }
 \description{
-\code{refseq_XPfromXM} Returns the XP accession from a single XM accession.
+\code{refseq_XPfromXM()} Returns the XP accession from a single XM accession.
 }
 \examples{
  # Get the XP id from a single XM accession
  xm <- "XM_004487701"
  refseq_XPfromXM(xm)
 
+ \donttest{
  # Get the XP ids from a set of XM accessions
- xm = c("XM_004487701", "XM_004488493", "XM_004501904")
- sapply(xm, function(x) refseq_XPfromXM(x), USE.NAMES = FALSE)
+ xm = c("XM_004487701", "XM_004488493")
+ sapply(xm, function(x) refseq_XPfromXM(x), USE.NAMES = FALSE) }
 
 }
 \seealso{

@@ -7,10 +7,10 @@
 refseq_mol_wt(xp)
 }
 \arguments{
-\item{xp}{a character string of the XP id.}
+\item{xp}{A character string of the XP id.}
 }
 \description{
-Parses an XP accession output (Genbank format) and extract the molecular weight
+\code{refseq_mol_wt()}Parses an XP accession output (Genbank format) and extract the molecular weight
 (in Daltons).
 }
 \details{
@@ -23,7 +23,7 @@ function parses the fectched record and returns the molecular weight.
  refseq_mol_wt(xp)
 
  # Get the molecular weight from from a set of XP accessions
- xp = c("XP_004487758", "XP_004488550", "XP_004501961")
+ xp = c("XP_004487758", "XP_004488550")
  sapply(xp, function(x) refseq_mol_wt(x), USE.NAMES = TRUE)
 
 }

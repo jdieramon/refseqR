@@ -1,7 +1,7 @@
 Package: refseqR
 Type: Package
-Title: Common computational operations working with RefSeq (GenBank)
-Version: 1.0.0
+Title: Common Computational Operations Working with 'RefSeq' Entries ('GenBank')
+Version: 1.0.1
 Authors@R: 
     c(person("Jose V.", "Die", , "jose.die@uco.es", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7506-8590")),
@@ -11,8 +11,8 @@ Authors@R:
              email = "lluis.revilla@gmail.com",
              comment = c(ORCID = "0000-0001-9747-2570")))
 Maintainer: Jose V. Die <jose.die@uco.es>
-Description: refseqR fetches NCBI data (RefSeq database) and provides an environment to  
-    extract information at the level of gene, mRNA or protein accessions. 
+Description: Fetches 'NCBI' data ('RefSeq' database) and provides an environment to  
+    extract information at the level of gene, 'mRNA' or protein accessions. 
 License: MIT + file LICENSE
 URL: https://github.com/jdieramon/refseqR
 BugReports: https://github.com/jdieramon/refseqR/issues
@@ -22,7 +22,6 @@ Imports:
     rentrez,
     tibble,
     Biostrings
-LazyData: True
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Suggests: knitr,

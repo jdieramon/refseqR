@@ -7,9 +7,9 @@
 refseq_fromXM(xm , feat)
 }
 \arguments{
-\item{xm}{a character string of the XM id.}
+\item{xm}{A character string of the XM id.}
 
-\item{feat}{a character string of the selected features. Allowed features: 'caption',
+\item{feat}{A character string of the selected features. Allowed features: 'caption',
 'moltype', 'sourcedb', 'updatedate', 'slen', 'organism', 'title'.}
 }
 \value{
@@ -25,7 +25,7 @@ A \code{tibble} of summarized results including columns:
 }
 }
 \description{
-\code{refseq_fromXM} Returns a number of features from a single/multiple mRNA accession(s).
+\code{refseq_fromXM()} Returns a number of features from a single/multiple mRNA accession(s).
 }
 \examples{
 # Get several molecular features from a set of mRNA accessions

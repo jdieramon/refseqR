@@ -1,13 +1,13 @@
 #'  Get mRNA features
 #'
-#' `refseq_fromXM` Returns a number of features from a single/multiple mRNA accession(s).
+#' `refseq_fromXM()` Returns a number of features from a single/multiple mRNA accession(s).
 #'
 #' @usage
 #' refseq_fromXM(xm , feat)
-#' @param xm a character string of the XM id.
-#' @param feat a character string of the selected features. Allowed features: 'caption',
-#' 'moltype', 'sourcedb', 'updatedate', 'slen', 'organism', 'title'.
 #'
+#' @param xm A character string of the XM id.
+#' @param feat A character string of the selected features. Allowed features: 'caption',
+#' 'moltype', 'sourcedb', 'updatedate', 'slen', 'organism', 'title'.
 #'
 #' @returns A \code{tibble} of summarized results including columns:
 #' \itemize{
@@ -32,31 +32,31 @@
 #' @author Jose V. Die
 #'
 #' @export
-#' @importFrom tibble tibble
 #'
+#' @importFrom tibble tibble
 
 refseq_fromXM <- function(xm, feat) {
 
-    # Defensive programming : check for allowed features
-    toMatch <- c("caption", "moltype", "sourcedb", "updatedate", "slen", "organism", "title")
-    if (sum(!feat %in% toMatch) != 0) {
-        stop("Error. Allowed features: 'caption', 'moltype', 'sourcedb', 'updatedate',
+  # Defensive programming : check for allowed features
+  toMatch <- c("caption", "moltype", "sourcedb", "updatedate", "slen", "organism", "title")
+  if (sum(!feat %in% toMatch) != 0) {
+    stop("Error. Allowed features: 'caption', 'moltype', 'sourcedb', 'updatedate',
          'slen', 'organism', 'title'")
 
-    } else {
-        mrna <-  rentrez::entrez_summary(db="nuccore", id= xm)
-        mrna <-  rentrez::extract_from_esummary(esummaries = mrna, elements = feat)
+  } else {
+    mrna <-  rentrez::entrez_summary(db="nuccore", id= xm)
+    mrna <-  rentrez::extract_from_esummary(esummaries = mrna, elements = feat)
 
 
-        # Build dataframe
-        df <-  data.frame(matrix(unlist(mrna), nrow = length(mrna)/length(feat),
-                                 byrow = T),
-                          stringsAsFactors = F)
+    # Build dataframe
+    df <-  data.frame(matrix(unlist(mrna), nrow = length(mrna)/length(feat),
+                           byrow = T),
+                    stringsAsFactors = F)
 
-        colnames(df) = feat
+    colnames(df) = feat
 
-    }
-    tibble::tibble(df)
+  }
+  tibble::tibble(df)
 }
 
 
