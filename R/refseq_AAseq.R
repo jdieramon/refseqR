@@ -1,17 +1,20 @@
-#'  Extract the amino acid sequence into a Biostrings object
+#' @title Extract the amino acid sequence into a Biostrings object
 #'
-#' `refseq_AAseq()` Parses a single/multiple XP accessions (GenBank format) and extract
-#' the amino acid sequences into a `AAStringSet` object.
+#' @description \code{refseq_AAseq()} Parses a single/multiple XP accessions (GenBank format) and extract
+#' the amino acid sequences into a \code{AAStringSet} object.
 #'
 #' @usage
 #' refseq_AAseq(xp)
 #'
 #' @param xp A character string containing a single/multiple XP ids.
 #'
-#' @examples \donttest{
+#' @returns An object of \code{AAStringSet} class.
+#'
+#' @examples
+#' \donttest{
 #' xp = c("XP_004487758", "XP_004488550", "XP_004501961")
 #' my_aa <- refseq_AAseq(xp)}
-#' # Now, the `AAStringSet` can be easily used to make a fasta file :
+#' # Now, the `AAStringSet`can be easily used to make a fasta file :
 #' # writeXStringSet(x= my_aa, filepath = "aa_result")
 #'
 #'
@@ -36,4 +39,3 @@ refseq_AAseq <- function(xp) {
   my_aa
 
 }
-
