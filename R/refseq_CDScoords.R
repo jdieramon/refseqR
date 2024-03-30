@@ -1,11 +1,13 @@
-#' Extract the coding sequences (CDS) coordinates from a XM accession
+#' @title Extract the coding sequences (CDS) coordinates from a XM accession
 #'
-#' `refseq_CDScoords()` Parses an XM accession (Genbank format) and extract the CDS coordinates.
+#' @description \code{refseq_CDScoords()} Parses an XM accession (Genbank format) and extract the CDS coordinates.
 #' The CDS coordinates refer to the mRNA molecule.
 #'
 #' @param xm A character string of the single/multiple XM id.
 #'
-#' @return An `IRanges` object with the start and end position of the CDS of the
+#' @seealso \code{\link{refseq_CDSseq}}
+#'
+#' @returns An `IRanges` object with the start and end position of the CDS of the
 #' putative mRNAs.
 #'
 #' @examples

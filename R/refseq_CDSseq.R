@@ -1,21 +1,22 @@
-#'  Extract the CDS nucleotide sequence into a Biostrings object
+#' @title Extract the CDS nucleotide sequence into a Biostrings object
 #'
-#' `refseq_CDSseq()` Parses a single/multiple XM acessions (Genbank format) and extract
-#' the CDS nucleotide sequences into a `DNAStringSet` object.
+#' @description \code{refseq_CDSseq()} Parses a single/multiple XM acessions (Genbank format) and extract
+#' the CDS nucleotide sequences into a \code{DNAStringSet} object.
 #'
 #' @usage
 #' refseq_CDSseq(xm)
 #'
 #' @param xm A character string of the single/multiple XM id.
 #'
+#' @returns An object of \code{DNAStringSet} class.
+#'
 #' @seealso \code{\link{refseq_CDScoords}}
 #'
-#' @examples \dontrun{
+#' @examples \donttest{
 #' xm <-  c("XM_004487701", "XM_004488493", "XM_004501904")
 #' my_cds <- refseq_CDSseq(xm)
-#' Now, the `DNAStringSet` can easily used to make a fasta file :
-#' writeXStringSet(x= my_cds, filepath = "cds_result")}
-#'
+#' # Now, the `DNAStringSet` can easily used to make a fasta file :
+#' # writeXStringSet(x= my_cds, filepath = "cds_result")}
 #'
 #' @author Jose V. Die
 #'

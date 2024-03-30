@@ -1,6 +1,6 @@
-#'  Get the XM accession from XP accession
+#' @title  Get the XM accession from XP accession
 #'
-#' `refseq_XMfromXP()` Returns the XM accession from a single XP accession.
+#' @description \code{refseq_XMfromXP()} Returns the XM accession from a single XP accession.
 #'
 #' @usage
 #' refseq_XMfromXP(xp)
@@ -24,7 +24,6 @@
 #' @author Jose V. Die
 #'
 #' @export
-
 
 refseq_XMfromXP <- function(xp) {
   tryCatch({

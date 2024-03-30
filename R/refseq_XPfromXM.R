@@ -1,6 +1,6 @@
-#'  Get the XP accession from XM accession
+#' @title Get the XP accession from XM accession
 #'
-#' `refseq_XPfromXM()` Returns the XP accession from a single XM accession.
+#' @description \code{refseq_XPfromXM()} Returns the XP accession from a single XM accession.
 #'
 #' @usage
 #' refseq_XPfromXM(xm)
@@ -44,7 +44,4 @@ refseq_XPfromXM <- function(xm) {
     return(ifelse(is.na(protein$caption), NA, protein$caption))
   })
 }
-
-
-
 

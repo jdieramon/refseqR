@@ -1,6 +1,6 @@
-#'  Get the gene symbol
+#' @title Get the gene symbol
 #'
-#' `refseq_geneSymbol()` Returns the gene symbol from a single Gene id. accession.
+#' @description \code{refseq_geneSymbol()} Returns the gene symbol from a single Gene id. accession.
 #'
 #' @usage
 #' refseq_geneSymbol (id, db)
@@ -39,3 +39,4 @@ refseq_geneSymbol <- function(id, db = "protein") {
   gene_summ$name
 
 }
+

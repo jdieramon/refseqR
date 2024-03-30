@@ -1,6 +1,6 @@
-#'  Get the mRNA or protein accession
+#' @title Get the mRNA or protein accession
 #'
-#' `refseq_fromGene()` Returns the XP or XM accession from a single gene id. accession.
+#' @description \code{refseq_fromGene()} Returns the XP or XM accession from a single gene id. accession.
 #'
 #' @usage
 #' refseq_fromGene(gene_symbol,sequence, retries)
@@ -26,7 +26,6 @@
 #' @author Jose V. Die
 #'
 #' @export
-
 
 refseq_fromGene <- function(gene_symbol , sequence = "XM", retries = 3) {
 
@@ -68,7 +67,7 @@ refseq_fromGene <- function(gene_symbol , sequence = "XM", retries = 3) {
   }, error = function(e) {
     if (inherits(e, "error")) {
       if (grepl("HTTP error: 502", e$message) && retries > 0) {
-        cat("Retrying...\n")
+        message("Retrying...\n")
         Sys.sleep(5)  # Wait for 5 seconds before retrying
         return(refseq_fromGene(gene_symbol, sequence, retries - 1))
       } else {

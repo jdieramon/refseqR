@@ -1,6 +1,6 @@
-#'  Get the protein length from an XP accession
+#' @title Get the protein length from an XP accession
 #'
-#' `refseq_XPlength()` Returns the amino acid length from a single XP accession.
+#' @description \code{refseq_XPlength()} Returns the amino acid length from a single XP accession.
 #'
 #' @usage
 #' refseq_XPlength(xp)
@@ -26,3 +26,4 @@ refseq_XPlength <- function(xp) {
   # Get the protein length
   xpinfo$slen
 }
+

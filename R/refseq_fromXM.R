@@ -1,6 +1,6 @@
-#'  Get mRNA features
+#' @title Get mRNA features
 #'
-#' `refseq_fromXM()` Returns a number of features from a single/multiple mRNA accession(s).
+#' @description \code{refseq_fromXM()} Returns a number of features from a single/multiple mRNA accession(s).
 #'
 #' @usage
 #' refseq_fromXM(xm , feat)
@@ -58,5 +58,3 @@ refseq_fromXM <- function(xm, feat) {
   }
   tibble::tibble(df)
 }
-
-

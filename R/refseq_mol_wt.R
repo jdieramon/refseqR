@@ -1,6 +1,6 @@
-#' Extract the molecular weigth from an XP accession
+#' @title Extract the molecular weigth from an XP accession
 #'
-#' `refseq_mol_wt()`Parses an XP accession output (Genbank format) and extract the molecular weight
+#' @description \code{refseq_mol_wt()} Parses an XP accession output (Genbank format) and extract the molecular weight
 #' (in Daltons).
 #'
 #' @usage
@@ -8,7 +8,7 @@
 #'
 #' @param xp A character string of the XP id.
 #'
-#' @seealso \code{\link[rentrez]{entrez_fetch}}
+#' @returns A numeric vector represeting the molecular weight of the protein(s) especified as `xp`.
 #'
 #' @details
 #' First, get the character vector containing the fetched record. Then, this
@@ -61,3 +61,4 @@ refseq_mol_wt <- function(xp) {
       return(0)
       }
 }
+

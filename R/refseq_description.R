@@ -1,6 +1,6 @@
-#'  Get the sequence Description
+#' @title Get the sequence Description
 #'
-#' `refseq_description()` Returns the sequence description from a single XM, XP, or Gene id. accession.
+#' @description \code{refseq_description()} Returns the sequence description from a single XM, XP, or Gene id. accession.
 #'
 #' @usage
 #' refseq_description(id)
@@ -36,3 +36,4 @@ refseq_description <- function(id) {
   esumm = rentrez::entrez_summary(db = "gene", id = esearch$ids )
   # Get the description
   esumm$description }
+
