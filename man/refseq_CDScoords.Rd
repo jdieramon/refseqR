@@ -26,6 +26,9 @@ xm = c("XM_004487701", "XM_004488493")
 refseq_CDScoords(xm)}
 
 }
+\seealso{
+\code{\link{refseq_CDSseq}}
+}
 \author{
 Jose V. Die
 }

@@ -9,8 +9,11 @@ refseq_mol_wt(xp)
 \arguments{
 \item{xp}{A character string of the XP id.}
 }
+\value{
+A numeric vector represeting the molecular weight of the protein(s) especified as \code{xp}.
+}
 \description{
-\code{refseq_mol_wt()}Parses an XP accession output (Genbank format) and extract the molecular weight
+\code{refseq_mol_wt()} Parses an XP accession output (Genbank format) and extract the molecular weight
 (in Daltons).
 }
 \details{
@@ -26,9 +29,6 @@ function parses the fectched record and returns the molecular weight.
  xp = c("XP_004487758", "XP_004488550")
  sapply(xp, function(x) refseq_mol_wt(x), USE.NAMES = TRUE)
 
-}
-\seealso{
-\code{\link[rentrez]{entrez_fetch}}
 }
 \author{
 Jose V. Die
