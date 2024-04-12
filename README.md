@@ -9,4 +9,17 @@
 [![DOI](https://zenodo.org/badge/123724326.svg)](https://zenodo.org/badge/latestdoi/123724326)
 
 # refseqR
-Common computational operations working with GenBank (RefSeq accessions, NCBI).
+Common computational operations working with GenBank (RefSeq accessions, NCBI).  
+
+### Installation 
+Get the released version from CRAN:  
+```{r}
+install.packages("refseqR")
+```
+
+Or the development version from github:  
+```{r}
+devtools::install_github("jdieramon/refseqR")
+```
+
+
