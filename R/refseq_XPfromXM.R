@@ -38,6 +38,7 @@ refseq_XPfromXM <- function(xm) {
     return(ifelse(is.na(protein$caption), NA, protein$caption))
   },
   error = function(e) {
+    Sys.sleep(2) #if error, sleep 2 sec, then redo
     protein_elink <- rentrez::entrez_link(dbfrom = "nuccore", id = xm, db = "protein")
     protein_id <- protein_elink$links$nuccore_protein
     protein <- rentrez::entrez_summary(db = "protein", id = protein_id)
