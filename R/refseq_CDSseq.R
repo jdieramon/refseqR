@@ -30,9 +30,9 @@ refseq_CDSseq <- function(xm) {
   res     <-  refseq_CDScoords(xm)
   my_cds  <-  sapply(seq(res), function(i) {
     cds   <-  rentrez::entrez_fetch(db = "nuccore", id = names(res)[i],
-                                rettype = "fasta",
-                                seq_start = start(res)[i],
-                                seq_stop = end(res)[i])
+                                    rettype = "fasta",
+                                    seq_start = start(res)[i],
+                                    seq_stop = end(res)[i])
     cds_tidy <-  strsplit(cds, "\n")
     cds_tidy <- as.character(paste0(cds_tidy[[1]][2:length(cds_tidy[[1]])], collapse = ""))
 

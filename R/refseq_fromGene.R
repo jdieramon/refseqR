@@ -76,4 +76,4 @@ refseq_fromGene <- function(gene_symbol , sequence = "XM", retries = 3) {
     }
   })
   return(ncbi)
-  }
+}

@@ -50,8 +50,8 @@ refseq_fromXM <- function(xm, feat) {
 
     # Build dataframe
     df <-  data.frame(matrix(unlist(mrna), nrow = length(mrna)/length(feat),
-                           byrow = T),
-                    stringsAsFactors = F)
+                             byrow = T),
+                      stringsAsFactors = F)
 
     colnames(df) = feat
 

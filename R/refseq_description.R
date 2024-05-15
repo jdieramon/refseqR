@@ -30,6 +30,7 @@
 #'
 #' @export
 
+
 refseq_description <- function(id) {
   esearch = rentrez::entrez_search(db = "gene", term = id)
   esumm = rentrez::entrez_summary(db = "gene", id = esearch$ids )

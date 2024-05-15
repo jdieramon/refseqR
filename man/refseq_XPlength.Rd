@@ -4,10 +4,12 @@
 \alias{refseq_XPlength}
 \title{Get the protein length from an XP accession}
 \usage{
-refseq_XPlength(xp)
+refseq_XPlength(xp, retries)
 }
 \arguments{
 \item{xp}{A character string of the XP id.}
+
+\item{retries}{A numeric value to control the number of retry attempts to handle internet errors.}
 }
 \value{
 A numeric value representing the aa length of the protein especified as \code{xp}.
@@ -18,7 +20,7 @@ A numeric value representing the aa length of the protein especified as \code{xp
 \examples{
  # Get the XM ids from a set of XP accessions
  xp = c("XP_004487758", "XP_004488550")
- sapply(xp, function(x) refseq_XPlength(x), USE.NAMES = FALSE)
+ sapply(xp, function(x) refseq_XPlength(x, retries = 3), USE.NAMES = FALSE)
 
 }
 \seealso{

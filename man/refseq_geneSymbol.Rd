@@ -4,12 +4,14 @@
 \alias{refseq_geneSymbol}
 \title{Get the gene symbol}
 \usage{
-refseq_geneSymbol (id, db)
+refseq_geneSymbol (id, db, retries)
 }
 \arguments{
 \item{id}{A character string of the XP or XM id.}
 
 \item{db}{A character string of the "nuccore" or "protein" database.}
+
+\item{retries}{A numeric value to control the number of retry attempts to handle internet errors.}
 }
 \value{
 A character vector containing the gene symbol corresponding to the especified accession as \code{id}.
@@ -20,11 +22,11 @@ A character vector containing the gene symbol corresponding to the especified ac
 \examples{
 # Get the gene symbol from a set of XM accessions
 xm = c("XM_004487701", "XM_004488493")
-sapply(xm, function(x) refseq_geneSymbol (x, db = "nuccore"), USE.NAMES = FALSE)
+sapply(xm, function(x) refseq_geneSymbol (x, db = "nuccore", retries = 3), USE.NAMES = FALSE)
 
 # Get the gene symbol from a set of XP accessions
 xp = c("XP_004487758")
-sapply(xp, function(x) refseq_geneSymbol (x, db = "protein"), USE.NAMES = FALSE)
+sapply(xp, function(x) refseq_geneSymbol (x, db = "protein", retries = 3), USE.NAMES = FALSE)
 
 }
 \seealso{

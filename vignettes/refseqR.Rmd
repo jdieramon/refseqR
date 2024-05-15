@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
 Load the library.
 ```{r setup}
 library(refseqR)
@@ -68,7 +69,7 @@ strsplit(mrna_gb, "\n")[[1]][1:30]
 
 The `refseq_fromXM` function serves as a wrapper built on top of 'entrez_summary' from the 'rentrez' package, designed to extract specific features from the obtained data. Typically, my focus lies on key features like id, accession, title, update, or sequence length (bp). However, you have the flexibility to tailor the function to extract additional features of interest from the `esummary_list` object.
 
-```{r}
+```{r, eval = F}
 xm = c("XM_004487701", "XM_004488493", "XM_004501904")
 feat = c("caption", "moltype", "sourcedb", "slen", "title")
 refseq_fromXM(xm ,feat)
@@ -114,7 +115,7 @@ refseq_XMfromXP(xp)
 
 Two specific functions prove useful for managing protein accessions: `refseq_XPlength` offers the amino acid length of the sequence, while `refseq_mol.wt` provides the molecular weight in Daltons.
 ```{r}
-refseq_XPlength(xp)
+refseq_XPlength(xp, retries = 3)
 refseq_mol_wt(xp)
 ```
 
@@ -168,4 +169,3 @@ I'd really appreciate your feedback. The whole code used in this tutorial is ava
 &nbsp;
 
 Córdoba, (Spain), `r Sys.Date()`.
-
