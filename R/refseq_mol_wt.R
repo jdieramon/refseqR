@@ -38,27 +38,27 @@ refseq_mol_wt <- function(xp) {
 
   mol_wt <-  0 # keep track of success
 
-    listName <-  strsplit(listName, "\n")
+  listName <-  strsplit(listName, "\n")
 
-    for(i in seq(listName[[1]])) {
-        val <- listName[[1]][i]
-        #remove whitespaces from the string
-        val <-  gsub(" ", "", val)
-        #remove "/" symbol from the string
-        val <-  gsub("/", "", val)
-        # split the string from "="
-        val <-  strsplit(val, "=")
+  for(i in seq(listName[[1]])) {
+    val <- listName[[1]][i]
+    #remove whitespaces from the string
+    val <-  gsub(" ", "", val)
+    #remove "/" symbol from the string
+    val <-  gsub("/", "", val)
+    # split the string from "="
+    val <-  strsplit(val, "=")
 
-        if(feat %in% val[[1]][1]) {
-            # 2nd element of the list contains the mol.wt
-            return(as.numeric(val[[1]][2]))
-            mol_wt <-  mol_wt+1
-        }
+    if(feat %in% val[[1]][1]) {
+      # 2nd element of the list contains the mol.wt
+      return(as.numeric(val[[1]][2]))
+      mol_wt <-  mol_wt+1
     }
-    # Defensive Programming
-    # if the loop reaches the last entry of the list and couldn´t find the 'feat', return 0
-    if(i == length(listName[[1]]) & mol_wt == 0) {
-      return(0)
-      }
+  }
+  # Defensive Programming
+  # if the loop reaches the last entry of the list and couldn´t find the 'feat', return 0
+  if(i == length(listName[[1]]) & mol_wt == 0) {
+    return(0)
+  }
 }
 

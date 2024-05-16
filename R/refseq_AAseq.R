@@ -39,3 +39,4 @@ refseq_AAseq <- function(xp) {
   my_aa
 
 }
+
