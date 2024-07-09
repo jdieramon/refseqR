@@ -32,26 +32,26 @@ In short, `refseqR` provides summary information at three different levels:
 &nbsp; 
 
 ## 1. GeneID
-Given a gene symbol obtained from the 'Gene' database, the `refseqR` library enables us to retrieve the associated mRNA and protein accessions.
+Given a gene symbol/name obtained from the 'Gene' database, the `refseqR` library enables us to retrieve the associated mRNA and protein accessions.
 ```{r }
-gene_symbol <- c("LOC101512347")
-transcript <- refseq_fromGene(gene_symbol, sequence = "XM", retries = 3)
-protein <- refseq_fromGene(gene_symbol, sequence = "XP", retries = 3)
+GeneID <- c("LOC101512347")
+transcript <- refseq_fromGene(GeneID, sequence = "XM", retries = 4)
+protein <- refseq_fromGene(GeneID, sequence = "XP", retries = 4)
 ```
-The mRNA transcript identifier (id) for `r gene_symbol` = `r transcript`.  
+The mRNA transcript identifier (id) for `r GeneID` = `r transcript`.  
   
-The protein identifier (id) for `r gene_symbol` = `r protein`. 
+The protein identifier (id) for `r GeneID` = `r protein`. 
   
   &nbsp;  
   
 Similarly, the function is effective when utilizing gene symbols that encode for multiple transcripts.
 ```{r}
-gene_symbol <- c("LOC105852298")
-transcript <- refseq_fromGene(gene_symbol, sequence = "XM", retries = 3)
-protein <- refseq_fromGene(gene_symbol, sequence = "XP", retries = 3)
+GeneID <- c("LOC105852298")
+transcript <- refseq_fromGene(GeneID, sequence = "XM", retries = 4)
+protein    <- refseq_fromGene(GeneID, sequence = "XP", retries = 4)
 ```
-The mRNA transcript id(s) for `r gene_symbol` = `r transcript`.  
-The protein id(s) for `r gene_symbol` = `r protein`. 
+The mRNA transcript id(s) for `r GeneID` = `r transcript`.  
+The protein id(s) for `r GeneID` = `r protein`. 
 
 The function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a XM, XP, or Gene identifier
 ```{r}
@@ -67,36 +67,36 @@ mrna_gb <- rentrez::entrez_fetch(db= 'nuccore', id = "XM_004487701", rettype = '
 strsplit(mrna_gb, "\n")[[1]][1:30]
 ```
 
-The `refseq_fromXM` function serves as a wrapper built on top of 'entrez_summary' from the 'rentrez' package, designed to extract specific features from the obtained data. Typically, my focus lies on key features like id, accession, title, update, or sequence length (bp). However, you have the flexibility to tailor the function to extract additional features of interest from the `esummary_list` object.
+The `refseq_mRNAfeat` function serves as a wrapper built on top of 'entrez_summary' from the 'rentrez' package, designed to extract specific features from the obtained data. Typically, my focus lies on key features like id, accession, title, update, or sequence length (bp). However, you have the flexibility to tailor the function to extract additional features of interest from the `esummary_list` object.
 
 ```{r, eval = F}
-xm = c("XM_004487701", "XM_004488493", "XM_004501904")
+transcript = c("XM_004487701", "XM_004488493", "XM_004501904")
 feat = c("caption", "moltype", "sourcedb", "slen", "title")
-refseq_fromXM(xm ,feat)
+refseq_mRNAfeat(transcript ,feat)
 ```
 
-Another interesting function is `refseq_XPfromXM`, which retrieves the protein accession associated with the provided mRNA.
+Another interesting function is `refseq_mRNA2protein`, which retrieves the protein accession associated with the provided mRNA.
 ```{r}
-xm <- "XM_004487701"
-refseq_XPfromXM(xm)
+transcript <- "XM_004487701"
+refseq_mRNA2protein(transcript)
 ```
 
 The CDS coordinates come in handy when we want to get the fasta sequence. We sometimes do not want the 5'UTR or 3'UTR contained in the mRNA sequence and are interested just in the CDS.     
 
 The function `refseq_CDScoords` creates an `IRanges` object with the CDS coordinates from an mRNA accession. The output object is the basis for `refseq_CDSseq`, which fetches the NCBI data, uses that coordinates and retuns a `DNAString` object with the CDS nucleotide sequence. 
 ```{r}
-refseq_CDScoords(xm)
-refseq_CDSseq(xm)
+refseq_CDScoords(transcript)
+refseq_CDSseq(transcript)
 ```
 Here, the first 500 nucleotides of the mRNA 'XM_004487701': 
 ```{r} 
-mrna_fasta = rentrez::entrez_fetch(db="nuccore", id=xm, rettype="fasta")
+mrna_fasta = rentrez::entrez_fetch(db="nuccore", id=transcript, rettype="fasta")
 # take a look at the first 500 chars. 
 cat(strwrap(substr(mrna_fasta, 1, 500)), sep="\n")
 ```
 Here, the first 60 nucleotides of the CDS from the mRNA 'XM_004487701': 
 ```{r}
-substr(toString(refseq_CDSseq(xm)), 1, 60)
+substr(toString(refseq_CDSseq(transcript)), 1, 60)
 ```
 As previously said, the function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a XM, XP, or Gene identifier
 ```{r}
@@ -106,22 +106,22 @@ refseq_description(id)
 
 ## 3. Protein
 
-Similarly to nucleotide sequences, `refseq_XMfromXP`, retrieves the mRNA associated with the provided protein accession.
+Similarly to nucleotide sequences, `refseq_protein2mRNA`, retrieves the mRNA associated with the provided protein accession.
 
 ```{r}
-xp <- "XP_020244413"
-refseq_XMfromXP(xp)
+protein <- "XP_020244413"
+refseq_protein2mRNA(protein)
 ```
 
-Two specific functions prove useful for managing protein accessions: `refseq_XPlength` offers the amino acid length of the sequence, while `refseq_mol.wt` provides the molecular weight in Daltons.
+Two specific functions prove useful for managing protein accessions: `refseq_AA_length` offers the amino acid length of the sequence, while `refseq_mol.wt` provides the molecular weight in Daltons.
 ```{r}
-refseq_XPlength(xp, retries = 3)
-refseq_mol_wt(xp)
+refseq_AA_length(protein, retries = 3)
+refseq_AA_mol_wt(protein)
 ```
 
 The `refseq_AAseq` function, fetches the NCBI data, and retuns a `DNAString` object with the amino acid sequence. 
 ```{r}
-refseq_AAseq(xp)
+refseq_AAseq(protein)
 ```
 
 
@@ -145,20 +145,20 @@ Functions to apply on gene id. accessions
 Functions to apply on mRNA id. accessions 
   
     
-  * `refseq_geneSymbol`
+  * `refseq_GeneID`
   * `refseq_CDScoords`
   * `refseq_CDSseq`
-  * `refseq_XPfromXM`
+  * `refseq_mRNA2protein`
   
 
 
 Functions to apply on protein id. accessions 
   
-  * `refseq_geneSymbol`
+  * `refseq_GeneID`
   * `refseq_AAseq`
-  * `refseq_mol_wt`
-  * `refseq_XPlength`
-  * `refseq_XMfromXP`
+  * `refseq_AA_mol_wt`
+  * `refseq_AA_length`
+  * `refseq_protein2mRNA`
 
   
 
