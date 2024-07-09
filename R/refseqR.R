@@ -1,4 +1,4 @@
-#' refseqR: Common computational operations working with GenBank
+#' refseqR: Common computational operations working with RefSeq
 #'
 #' refseqR is a framework of common computational operations working with RefSeq entries (GenBank)
 #'

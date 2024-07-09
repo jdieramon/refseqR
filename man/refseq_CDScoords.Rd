@@ -2,28 +2,30 @@
 % Please edit documentation in R/refseq_CDScoords.R
 \name{refseq_CDScoords}
 \alias{refseq_CDScoords}
-\title{Extract the coding sequences (CDS) coordinates from a XM accession}
+\title{Extract the coding sequences (CDS) coordinates from a transcript accession}
 \usage{
-refseq_CDScoords(xm)
+refseq_CDScoords(transcript)
 }
 \arguments{
-\item{xm}{A character string of the single/multiple XM id.}
+\item{transcript}{A character string of the single/multiple transcript id.}
 }
 \value{
 An \code{IRanges} object with the start and end position of the CDS of the
 putative mRNAs.
 }
 \description{
-\code{refseq_CDScoords()} Parses an XM accession (Genbank format) and extract the CDS coordinates.
+\code{refseq_CDScoords()} Parses a transcript accession (RefSeq format) and extract the CDS coordinates.
 The CDS coordinates refer to the mRNA molecule.
+
+Depending on the function, available accessions in \code{refseqR} include RefSeq models with the prefixes XM_ (mRNA), XR_ (non-coding RNA), and XP_ (protein), as well as subsequently curated RefSeq records with NM_, NR_, or NP_ accession prefixes.
 }
 \examples{
-xm = c("XM_004487701")
-refseq_CDScoords(xm)
+transcript = c("XM_004487701")
+refseq_CDScoords(transcript)
 
 \donttest{
-xm = c("XM_004487701", "XM_004488493")
-refseq_CDScoords(xm)}
+transcript = c("XM_004487701", "XM_004488493")
+refseq_CDScoords(transcript)}
 
 }
 \seealso{

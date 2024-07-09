@@ -4,22 +4,24 @@
 \alias{refseq_AAseq}
 \title{Extract the amino acid sequence into a Biostrings object}
 \usage{
-refseq_AAseq(xp)
+refseq_AAseq(accession)
 }
 \arguments{
-\item{xp}{A character string containing a single/multiple XP ids.}
+\item{accession}{A character string containing a single/multiple accession ids.}
 }
 \value{
 An object of \code{AAStringSet} class.
 }
 \description{
-\code{refseq_AAseq()} Parses a single/multiple XP accessions (GenBank format) and extract
+\code{refseq_AAseq()} Parses a single/multiple protein accessions (RefSeq format) and extract
 the amino acid sequences into a \code{AAStringSet} object.
+
+Depending on the function, available accessions in \code{refseqR} include RefSeq models with the prefixes XM_ (mRNA), XR_ (non-coding RNA), and XP_ (protein), as well as subsequently curated RefSeq records with NM_, NR_, or NP_ accession prefixes.
 }
 \examples{
 \donttest{
-xp = c("XP_004487758", "XP_004488550", "XP_004501961")
-my_aa <- refseq_AAseq(xp)}
+accession = c("XP_004487758", "XP_004488550", "XP_004501961")
+my_aa <- refseq_AAseq(accession)}
 # Now, the `AAStringSet`can be easily used to make a fasta file :
 # writeXStringSet(x= my_aa, filepath = "aa_result")
 

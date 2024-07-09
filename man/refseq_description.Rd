@@ -7,22 +7,24 @@
 refseq_description(id)
 }
 \arguments{
-\item{id}{A character string of the XP, XM, or Gene id.}
+\item{id}{A character string of the transcript, protein, or GeneID accession.}
 }
 \value{
 A character vector containing the sequence description corresponding to the specified sequence as \code{id}.
 }
 \description{
-\code{refseq_description()} Returns the sequence description from a single XM, XP, or Gene id. accession.
+\code{refseq_description()} Returns the sequence description from a single transcript, protein, or GeneID accession.
+
+Depending on the function, available accessions in \code{refseqR} include RefSeq models with the prefixes transcript_ (mRNA), XR_ (non-coding RNA), and XP_ (protein), as well as subsequently curated RefSeq records with NM_, NR_, or NP_ accession prefixes.
 }
 \examples{
- # Get the sequence descriptions from a set of XM accessions
- xm = c("XM_004487701")
- sapply(xm, function(x) refseq_description(x), USE.NAMES = FALSE)
+ # Get the sequence descriptions from a set of transcript accessions
+ transcript = c("XM_004487701")
+ sapply(transcript, function(x) refseq_description(x), USE.NAMES = FALSE)
 
  # Get the sequence descriptions from a set of XP accessions
- xp = c("XP_004487758")
- sapply(xp, function(x) refseq_description(x), USE.NAMES = FALSE)
+ protein = c("XP_004487758")
+ sapply(protein, function(x) refseq_description(x), USE.NAMES = FALSE)
 
 \donttest{
 #' # Get the sequence descriptions from a set of Gene accessions
@@ -31,9 +33,9 @@ sapply(locs, function(x) refseq_description(x), USE.NAMES = FALSE)}
 
 }
 \seealso{
-\code{\link{refseq_XMfromXP}} to obtain the XM ids that encode a set of XP ids.
+\code{\link{refseq_protein2mRNA}} to obtain the transcript ids that encode a set of protein ids.
 
-\code{\link{refseq_XPfromXM}} to obtain the XP ids encoded by a set of XM ids.
+\code{\link{refseq_mRNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
 }
 \author{
 Jose V. Die

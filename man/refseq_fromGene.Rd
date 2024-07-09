@@ -4,20 +4,20 @@
 \alias{refseq_fromGene}
 \title{Get the mRNA or protein accession}
 \usage{
-refseq_fromGene(gene_symbol,sequence, retries)
+refseq_fromGene(GeneID,sequence, retries)
 }
 \arguments{
-\item{gene_symbol}{A character string of the gene symbol.}
+\item{GeneID}{A character string of the GeneID.}
 
-\item{sequence}{A character string of the "XM" or "XP" to fetch data from mRNA or protein databases, respectively.}
+\item{sequence}{A character string of the mRNA or protein accession to fetch data from mRNA or protein databases, respectively.}
 
 \item{retries}{A numeric value to control the number of retry attempts to handle 502 errors.}
 }
 \value{
-A character vector containing the XP or XM id accessions corresponding to the especified \verb{gene symbol}.
+A character vector containing the mRNA or protein accession corresponding to the especified \code{GeneID}.
 }
 \description{
-\code{refseq_fromGene()} Returns the XP or XM accession from a single gene id. accession.
+\code{refseq_fromGene()} Returns the mRNA or protein accession from a single GeneID.
 }
 \examples{
 \donttest{
@@ -31,9 +31,9 @@ sapply(locs, function(x) refseq_fromGene (x, sequence = "XP", retries = 3), USE.
 
 }
 \seealso{
-\code{\link{refseq_XMfromXP}} to obtain the XM ids that encode a set of XP ids.
+\code{\link{refseq_protein2mRNA}} to obtain the transcript accessions that encode a set of protein accessions.
 
-\code{\link{refseq_XPfromXM}} to obtain the XP ids encoded by a set of XM ids.
+\code{\link{refseq_mRNA2protein}} to obtain the protein accessions encoded by a set of transcript accessions.
 }
 \author{
 Jose V. Die

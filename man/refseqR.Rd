@@ -4,7 +4,7 @@
 \name{refseqR}
 \alias{refseqR}
 \alias{refseqR-package}
-\title{refseqR: Common computational operations working with GenBank}
+\title{refseqR: Common computational operations working with RefSeq}
 \description{
 refseqR is a framework of common computational operations working with RefSeq entries (GenBank)
 }

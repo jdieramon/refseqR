@@ -1,9 +1,11 @@
-#' @title Extract the coding sequences (CDS) coordinates from a XM accession
+#' @title Extract the coding sequences (CDS) coordinates from a transcript accession
 #'
-#' @description \code{refseq_CDScoords()} Parses an XM accession (Genbank format) and extract the CDS coordinates.
-#' The CDS coordinates refer to the mRNA molecule.
-#'
-#' @param xm A character string of the single/multiple XM id.
+#' @description \code{refseq_CDScoords()} Parses a transcript accession (RefSeq format) and extract the CDS coordinates.
+#' The CDS coordinates refer to the mRNA molecule.    
+#'   
+#' Depending on the function, available accessions in \code{refseqR} include RefSeq models with the prefixes XM_ (mRNA), XR_ (non-coding RNA), and XP_ (protein), as well as subsequently curated RefSeq records with NM_, NR_, or NP_ accession prefixes.
+#' 
+#' @param transcript A character string of the single/multiple transcript id.
 #'
 #' @seealso \code{\link{refseq_CDSseq}}
 #'
@@ -11,12 +13,12 @@
 #' putative mRNAs.
 #'
 #' @examples
-#' xm = c("XM_004487701")
-#' refseq_CDScoords(xm)
+#' transcript = c("XM_004487701")
+#' refseq_CDScoords(transcript)
 #'
 #' \donttest{
-#' xm = c("XM_004487701", "XM_004488493")
-#' refseq_CDScoords(xm)}
+#' transcript = c("XM_004487701", "XM_004488493")
+#' refseq_CDScoords(transcript)}
 #'
 #' @author Jose V. Die
 #'
@@ -25,14 +27,14 @@
 #' @importFrom IRanges IRanges
 
 
-refseq_CDScoords <- function(xm) {
+refseq_CDScoords <- function(transcript) {
   # initialize some containers
   start <- c()
   stop <- c()
   version <- c()
 
   # loop over the elements of the input
-  for (x in xm) {
+  for (x in transcript) {
     # get the character vector containing the fetched record
     target <- rentrez::entrez_fetch(db = "nuccore", id = x, rettype = "gp")
     # remove whitespaces from the string
