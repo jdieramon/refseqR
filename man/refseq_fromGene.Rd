@@ -21,13 +21,13 @@ A character vector containing the mRNA or protein accession corresponding to the
 }
 \examples{
 \donttest{
-# Get the XM accessions from a set of gene ids
+# Get the transcript accessions from a set of gene ids
 locs <- c("LOC101512347")
-sapply(locs, function(x) refseq_fromGene (x, sequence = "XM", retries = 3), USE.NAMES = FALSE)
+sapply(locs, function(x) refseq_fromGene (x,sequence="transcript",retries=4),USE.NAMES=FALSE)
 
-# Get the XP accessions from a set of gene ids
+# Get the protein accessions from a set of gene ids
 locs <- c("LOC101512347")
-sapply(locs, function(x) refseq_fromGene (x, sequence = "XP", retries = 3), USE.NAMES = FALSE)}
+sapply(locs, function(x) refseq_fromGene (x,sequence="protein",retries=4),USE.NAMES=FALSE)}
 
 }
 \seealso{

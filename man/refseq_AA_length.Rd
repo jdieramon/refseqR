@@ -22,7 +22,7 @@ Depending on the function, available accessions in \code{refseqR} include RefSeq
 \examples{
  # Get the XM ids from a set of XP accessions
  protein = c("XP_004487758", "XP_004488550")
- sapply(protein, function(x) refseq_AA_length(x, retries = 3), USE.NAMES = FALSE)
+ sapply(protein, function(x) refseq_AA_length(x, retries = 4), USE.NAMES = FALSE)
 
 }
 \seealso{
