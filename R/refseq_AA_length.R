@@ -18,13 +18,13 @@
 #' @examples
 #'  # Get the XM ids from a set of XP accessions
 #'  protein = c("XP_004487758", "XP_004488550")
-#'  sapply(protein, function(x) refseq_AA_length(x, retries = 3), USE.NAMES = FALSE)
+#'  sapply(protein, function(x) refseq_AA_length(x, retries = 4), USE.NAMES = FALSE)
 #'
 #' @author Jose V. Die
 #'
 #' @export
 
-refseq_AA_length <- function(protein, retries = 3) {
+refseq_AA_length <- function(protein, retries = 4) {
   tryCatch({
     # Get the item list for that protein id
     xpinfo <- rentrez::entrez_summary(db = "protein", id = protein)
