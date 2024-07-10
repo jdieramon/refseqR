@@ -35,8 +35,8 @@ In short, `refseqR` provides summary information at three different levels:
 Given a gene symbol/name obtained from the 'Gene' database, the `refseqR` library enables us to retrieve the associated mRNA and protein accessions.
 ```{r }
 GeneID <- c("LOC101512347")
-transcript <- refseq_fromGene(GeneID, sequence = "XM", retries = 4)
-protein <- refseq_fromGene(GeneID, sequence = "XP", retries = 4)
+transcript <- refseq_fromGene(GeneID, sequence = "transcript", retries = 4)
+protein <- refseq_fromGene(GeneID, sequence = "protein", retries = 4)
 ```
 The mRNA transcript identifier (id) for `r GeneID` = `r transcript`.  
   
@@ -47,13 +47,13 @@ The protein identifier (id) for `r GeneID` = `r protein`.
 Similarly, the function is effective when utilizing gene symbols that encode for multiple transcripts.
 ```{r}
 GeneID <- c("LOC105852298")
-transcript <- refseq_fromGene(GeneID, sequence = "XM", retries = 4)
-protein    <- refseq_fromGene(GeneID, sequence = "XP", retries = 4)
+transcript <- refseq_fromGene(GeneID, sequence = "transcript", retries = 4)
+protein    <- refseq_fromGene(GeneID, sequence = "protein", retries = 4)
 ```
 The mRNA transcript id(s) for `r GeneID` = `r transcript`.  
 The protein id(s) for `r GeneID` = `r protein`. 
 
-The function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a XM, XP, or Gene identifier
+The function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a transcript, protein, or Gene identifier.
 ```{r}
 id <- c("LOC101512347")
 refseq_description(id)
@@ -67,7 +67,7 @@ mrna_gb <- rentrez::entrez_fetch(db= 'nuccore', id = "XM_004487701", rettype = '
 strsplit(mrna_gb, "\n")[[1]][1:30]
 ```
 
-The `refseq_mRNAfeat` function serves as a wrapper built on top of 'entrez_summary' from the 'rentrez' package, designed to extract specific features from the obtained data. Typically, my focus lies on key features like id, accession, title, update, or sequence length (bp). However, you have the flexibility to tailor the function to extract additional features of interest from the `esummary_list` object.
+The `refseq_mRNAfeat` function serves as a wrapper built on top of `entrez_summary` from the `rentrez` package, designed to extract specific features from the obtained data. Typically, my focus lies on key features like id, accession, title, update, or sequence length (bp). However, you have the flexibility to tailor the function to extract additional features of interest from the `esummary_list` object.
 
 ```{r, eval = F}
 transcript = c("XM_004487701", "XM_004488493", "XM_004501904")
@@ -83,7 +83,7 @@ refseq_mRNA2protein(transcript)
 
 The CDS coordinates come in handy when we want to get the fasta sequence. We sometimes do not want the 5'UTR or 3'UTR contained in the mRNA sequence and are interested just in the CDS.     
 
-The function `refseq_CDScoords` creates an `IRanges` object with the CDS coordinates from an mRNA accession. The output object is the basis for `refseq_CDSseq`, which fetches the NCBI data, uses that coordinates and retuns a `DNAString` object with the CDS nucleotide sequence. 
+The function `refseq_CDScoords` creates an `IRanges` object with the CDS coordinates from an mRNA accession. The output object is the basis for `refseq_CDSseq`, which fetches the NCBI data, uses that coordinates and returns a `DNAString` object with the CDS nucleotide sequence. 
 ```{r}
 refseq_CDScoords(transcript)
 refseq_CDSseq(transcript)
@@ -98,7 +98,7 @@ Here, the first 60 nucleotides of the CDS from the mRNA 'XM_004487701':
 ```{r}
 substr(toString(refseq_CDSseq(transcript)), 1, 60)
 ```
-As previously said, the function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a XM, XP, or Gene identifier
+As previously said, the function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a transcript, protein, or Gene identifier.
 ```{r}
 id <- "XM_004487701"
 refseq_description(id)
@@ -115,17 +115,17 @@ refseq_protein2mRNA(protein)
 
 Two specific functions prove useful for managing protein accessions: `refseq_AA_length` offers the amino acid length of the sequence, while `refseq_mol.wt` provides the molecular weight in Daltons.
 ```{r}
-refseq_AA_length(protein, retries = 3)
+refseq_AA_length(protein, retries = 4)
 refseq_AA_mol_wt(protein)
 ```
 
-The `refseq_AAseq` function, fetches the NCBI data, and retuns a `DNAString` object with the amino acid sequence. 
+The `refseq_AAseq` function, fetches the NCBI data, and returns a `DNAString` object with the amino acid sequence. 
 ```{r}
 refseq_AAseq(protein)
 ```
 
 
-As previously mentioned, the `refseq_description` function ultimately provides the sequence description associated with a given accession. The identifier (id) can take the form of either an gene, XM, or XP identifier.
+As previously mentioned, the `refseq_description` function ultimately provides the sequence description associated with a given accession. The identifier (id) can take the form of either a transcript, protein, or Gene identifier.
 ```{r}
 id <- "XP_020244413"
 refseq_description(id)
@@ -135,14 +135,14 @@ refseq_description(id)
 ### 4. Concluding Remarks
 The package `refseqR` contains a number of functions to programmatically automatize some common operations.  
 
-Functions to apply on gene id. accessions 
+Functions to apply on GeneID accessions 
   
   
   * `refseq_description`
   * `refseq_fromGene`
   
   
-Functions to apply on mRNA id. accessions 
+Functions to apply on transcript id. accessions 
   
     
   * `refseq_GeneID`
