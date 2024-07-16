@@ -10,7 +10,7 @@ refseq_protein2mRNA(protein)
 \item{protein}{A character string of the protein id.}
 }
 \value{
-A character vector containing the XM ids that encode the \code{protein}.
+A character vector containing the transcript ids that encode the \code{protein}.
 }
 \description{
 \code{refseq_protein2mRNA()} Returns the transcript accession from a single protein accession.
@@ -23,7 +23,7 @@ Depending on the function, available accessions in \code{refseqR} include RefSeq
  refseq_protein2mRNA(protein)
 
 \donttest{
- # Get the XM ids from a set of XP accessions
+ # Get the transcript ids from a set of protein accessions
  protein = c("XP_004487758", "XP_004488550")
  sapply(protein, function(x) refseq_protein2mRNA(x), USE.NAMES = FALSE)}
 

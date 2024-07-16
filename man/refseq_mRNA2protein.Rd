@@ -2,7 +2,7 @@
 % Please edit documentation in R/refseq_mRNA2protein.R
 \name{refseq_mRNA2protein}
 \alias{refseq_mRNA2protein}
-\title{Get the XP accession from XM accession}
+\title{Get the protein accession from the transcript accession}
 \usage{
 refseq_mRNA2protein(transcript)
 }
