@@ -19,7 +19,7 @@
 #'  transcript = c("XM_004487701")
 #'  sapply(transcript, function(x) refseq_description(x), USE.NAMES = FALSE)
 #'
-#'  # Get the sequence descriptions from a set of XP accessions
+#'  # Get the sequence descriptions from a set of protein accessions
 #'  protein = c("XP_004487758")
 #'  sapply(protein, function(x) refseq_description(x), USE.NAMES = FALSE)
 #'

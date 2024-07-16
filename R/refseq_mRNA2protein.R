@@ -1,4 +1,4 @@
-#' @title Get the XP accession from XM accession
+#' @title Get the protein accession from the transcript accession
 #'
 #' @description \code{refseq_mRNA2protein()} Returns the protein accession from a single transcript accession.
 #'

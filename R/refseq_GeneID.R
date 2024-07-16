@@ -21,7 +21,7 @@
 #' transcript = c("XM_004487701", "XM_004488493")
 #' sapply(transcript, function(x) refseq_GeneID (x, db = "nuccore", retries = 4), USE.NAMES = FALSE)
 #'
-#' # Get the gene symbol from a set of XP accessions
+#' # Get the gene symbol from a set of protein accessions
 #' protein = c("XP_004487758")
 #' sapply(protein, function(x) refseq_GeneID (x, db = "protein", retries = 4), USE.NAMES = FALSE)
 #'

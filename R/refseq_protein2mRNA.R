@@ -9,7 +9,7 @@
 #'
 #' @param protein A character string of the protein id.
 #'
-#' @returns A character vector containing the XM ids that encode the `protein`.
+#' @returns A character vector containing the transcript ids that encode the `protein`.
 #'
 #' @seealso \code{\link{refseq_mRNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
 #'
@@ -19,7 +19,7 @@
 #'  refseq_protein2mRNA(protein)
 #'
 #' \donttest{
-#'  # Get the XM ids from a set of XP accessions
+#'  # Get the transcript ids from a set of protein accessions
 #'  protein = c("XP_004487758", "XP_004488550")
 #'  sapply(protein, function(x) refseq_protein2mRNA(x), USE.NAMES = FALSE)}
 #'
