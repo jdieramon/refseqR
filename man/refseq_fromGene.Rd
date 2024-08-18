@@ -4,14 +4,12 @@
 \alias{refseq_fromGene}
 \title{Get the mRNA or protein accession}
 \usage{
-refseq_fromGene(GeneID,sequence, retries)
+refseq_fromGene(GeneID, sequence)
 }
 \arguments{
 \item{GeneID}{A character string of the GeneID.}
 
 \item{sequence}{A character string of the mRNA or protein accession to fetch data from mRNA or protein databases, respectively.}
-
-\item{retries}{A numeric value to control the number of retry attempts to handle 502 errors.}
 }
 \value{
 A character vector containing the mRNA or protein accession corresponding to the especified \code{GeneID}.
@@ -21,19 +19,19 @@ A character vector containing the mRNA or protein accession corresponding to the
 }
 \examples{
 \donttest{
-# Get the transcript accessions from a set of gene ids
+# Get the XM accessions from a set of gene ids
 locs <- c("LOC101512347")
-sapply(locs, function(x) refseq_fromGene (x,sequence="transcript",retries=4),USE.NAMES=FALSE)
+sapply(locs, function(x) refseq_fromGene (x, sequence = "transcript"), USE.NAMES = FALSE)
 
-# Get the protein accessions from a set of gene ids
+# Get the XP accessions from a set of gene ids
 locs <- c("LOC101512347")
-sapply(locs, function(x) refseq_fromGene (x,sequence="protein",retries=4),USE.NAMES=FALSE)}
+sapply(locs, function(x) refseq_fromGene (x, sequence = "protein"), USE.NAMES = FALSE)}
 
 }
 \seealso{
-\code{\link{refseq_protein2mRNA}} to obtain the transcript accessions that encode a set of protein accessions.
+\code{\link{refseq_protein2RNA}} to obtain the transcript accessions that encode a set of protein accessions.
 
-\code{\link{refseq_mRNA2protein}} to obtain the protein accessions encoded by a set of transcript accessions.
+\code{\link{refseq_RNA2protein}} to obtain the protein accessions encoded by a set of transcript accessions.
 }
 \author{
 Jose V. Die

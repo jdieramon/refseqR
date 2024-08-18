@@ -11,8 +11,8 @@
 #'
 #' @returns A character vector containing the sequence description corresponding to the specified sequence as `id`.
 #'
-#' @seealso \code{\link{refseq_protein2mRNA}} to obtain the transcript ids that encode a set of protein ids.
-#' @seealso \code{\link{refseq_mRNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
+#' @seealso \code{\link{refseq_protein2RNA}} to obtain the transcript ids that encode a set of protein ids.
+#' @seealso \code{\link{refseq_RNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
 #'
 #' @examples
 #'  # Get the sequence descriptions from a set of transcript accessions

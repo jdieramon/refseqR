@@ -3,57 +3,33 @@
 #' @description \code{refseq_geneSymbol()} Returns the gene symbol from a single Gene id. accession.
 #'
 #' @usage
-#' refseq_geneSymbol (id, db, retries)
+#' refseq_geneSymbol (id, db)
 #'
-#' @param id A character string of the XP or XM id.
+#' @param id A character string of the transcript or protein id.
 #' @param db A character string of the "nuccore" or "protein" database.
-#' @param retries A numeric value to control the number of retry attempts to handle internet errors.
 #'
 #' @returns A character vector containing the gene symbol corresponding to the especified accession as `id`.
 #'
-#' @seealso \code{\link{refseq_XMfromXP}} to obtain the XM ids that encode a set of XP ids.
-#' @seealso \code{\link{refseq_XPfromXM}} to obtain the XP ids encoded by a set of XM ids.
+#' @seealso \code{\link{refseq_protein2RNA}} to obtain the transcript ids that encode a set of protein ids.
+#' @seealso \code{\link{refseq_RNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
 #'
 #' @examples
-#' # Get the gene symbol from a set of XM accessions
-#' xm = c("XM_004487701", "XM_004488493")
-#' sapply(xm, function(x) refseq_geneSymbol (x, db = "nuccore", retries = 3), USE.NAMES = FALSE)
+#' # Get the gene symbol from a set of transcript accessions
+#' id = c("XM_004487701", "XM_004488493")
+#' sapply(id, function(x) refseq_geneSymbol (x, db = "nuccore"), USE.NAMES = FALSE)
 #'
 #' # Get the gene symbol from a set of XP accessions
-#' xp = c("XP_004487758")
-#' sapply(xp, function(x) refseq_geneSymbol (x, db = "protein", retries = 3), USE.NAMES = FALSE)
+#' id = c("XP_004487758")
+#' sapply(id, function(x) refseq_geneSymbol (x, db = "protein"), USE.NAMES = FALSE)
 #'
 #' @author Jose V. Die
 #'
 #' @export
 
-refseq_geneSymbol <- function(id, db = "protein", retries = 3) {
-
-  tryCatch({
-
-    if (db == "protein") {
-      id_elink = rentrez::entrez_link(dbfrom = "protein", id = id, db= "gene")
-      gene_id = id_elink$links$protein_gene
-
-    } else {
-      id_elink = rentrez::entrez_link(dbfrom = "nuccore", id = id, db= "gene")
-      gene_id = id_elink$links$nuccore_gene
-    }
-
-  }, error = function(e) {
-    if (inherits(e, "error")) {
-      if (grepl("HTTP error: 502", e$message) && retries > 0) {
-        message("Retrying...\n")
-        Sys.sleep(5)  # Wait for 5 seconds before retrying
-        return(refseq_geneSymbol(id, db, retries - 1))
-      } else {
-        stop(e)
-      }
-
-    }
-  })
-
-  gene_summ = rentrez::entrez_summary(db = "gene", id = gene_id)
-  return(gene_summ$name)
-
+refseq_geneSymbol <- function(id, db = "protein") {
+  tryCatch(
+    expr    = {refseq_geneSymbol_action(id, db, retries = 4)},
+    error   = function(e) {message("NCBI servers are busy. Please try again a bit later.")},
+    warning = function(w) {message("NCBI servers are busy. Please try again a bit later.")}
+  )
 }

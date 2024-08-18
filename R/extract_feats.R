@@ -18,7 +18,6 @@
 #' extract_from_xm(mrna_gb, feat = "genotype")
 #' extract_from_xm(mrna_gb, feat = "tissue")
 #' @author Jose V. Die
-#' @export
 
 extract_from_xm <- function(listName, feat = "tissue") {
 

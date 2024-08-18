@@ -39,7 +39,7 @@ refseq_mRNAfeat(transcript ,feat)
 \seealso{
 \code{\link{refseq_fromGene}} to obtain the transcript or protein accession from a single GeneID accession.
 
-\code{\link{refseq_mRNA2protein}} to obtain the protein accessions encoded by a set of transcript ids.
+\code{\link{refseq_RNA2protein}} to obtain the protein accessions encoded by a set of transcript ids.
 }
 \author{
 Jose V. Die

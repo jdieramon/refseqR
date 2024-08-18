@@ -33,9 +33,9 @@ sapply(locs, function(x) refseq_description(x), USE.NAMES = FALSE)}
 
 }
 \seealso{
-\code{\link{refseq_protein2mRNA}} to obtain the transcript ids that encode a set of protein ids.
+\code{\link{refseq_protein2RNA}} to obtain the transcript ids that encode a set of protein ids.
 
-\code{\link{refseq_mRNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
+\code{\link{refseq_RNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
 }
 \author{
 Jose V. Die

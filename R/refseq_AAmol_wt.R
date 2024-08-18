@@ -1,12 +1,12 @@
 #' @title Extract the molecular weight from a protein accession
 #'
-#' @description \code{refseq_AA_mol_wt()} Parses a protein accession output (RefSeq format) and extract the molecular weight
+#' @description \code{refseq_AAmol_wt()} Parses a protein accession output (RefSeq format) and extract the molecular weight
 #' (in Daltons).
 #'
 #'Depending on the function, available accessions in \code{refseqR} include RefSeq models with the prefixes XM_ (mRNA), XR_ (non-coding RNA), and XP_ (protein), as well as subsequently curated RefSeq records with NM_, NR_, or NP_ accession prefixes.
 #'
 #' @usage
-#' refseq_AA_mol_wt(protein)
+#' refseq_AAmol_wt(protein)
 #'
 #' @param protein A character string of the protein id.
 #'
@@ -16,21 +16,23 @@
 #' First, get the character vector containing the fetched record. Then, this
 #' function parses the fetched record and returns the molecular weight.
 #'
+#' @seealso \code{\link{refseq_RNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
+#' 
 #' @examples
 #'  # Get the molecular weight from a single protein accession
 #'  protein <- "XP_020244413"
-#'  refseq_AA_mol_wt(protein)
+#'  refseq_AAmol_wt(protein)
 #'
 #'  # Get the molecular weight from from a set of protein accessions
 #'  protein = c("XP_004487758", "XP_004488550")
-#'  sapply(protein, function(x) refseq_AA_mol_wt(x), USE.NAMES = TRUE)
+#'  sapply(protein, function(x) refseq_AAmol_wt(x), USE.NAMES = TRUE)
 #'
 #' @author Jose V. Die
 #'
 #' @export
 
 
-refseq_AA_mol_wt <- function(protein) {
+refseq_AAmol_wt <- function(protein) {
 
   # Define the feature
   feat = "calculated_mol_wt"

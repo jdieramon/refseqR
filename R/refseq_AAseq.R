@@ -1,7 +1,7 @@
 #' @title Extract the amino acid sequence into a Biostrings object
 #'
 #' @description \code{refseq_AAseq()} Parses a single/multiple protein accessions (RefSeq format) and extract
-#' the amino acid sequences into a \code{AAStringSet} object.  
+#' the amino acid sequence(s) into a \code{AAStringSet} object.  
 #'     
 #' Depending on the function, available accessions in \code{refseqR} include RefSeq models with the prefixes XM_ (mRNA), XR_ (non-coding RNA), and XP_ (protein), as well as subsequently curated RefSeq records with NM_, NR_, or NP_ accession prefixes.
 #' 

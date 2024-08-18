@@ -13,8 +13,8 @@
 #'
 #' @returns A character vector containing the GeneID corresponding to the specified accession as `accession`.
 #'
-#' @seealso \code{\link{refseq_protein2mRNA}} to obtain the transcript accessions that encode a set of protein accessions.
-#' @seealso \code{\link{refseq_mRNA2protein}} to obtain the protein accessions encoded by a set of transcript accessions.
+#' @seealso \code{\link{refseq_protein2RNA}} to obtain the transcript accessions that encode a set of protein accessions.
+#' @seealso \code{\link{refseq_RNA2protein}} to obtain the protein accessions encoded by a set of transcript accessions.
 #'
 #' @examples
 #' # Get the gene symbol from a set of transcript accessions

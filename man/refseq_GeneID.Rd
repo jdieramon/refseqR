@@ -32,9 +32,9 @@ sapply(protein, function(x) refseq_GeneID (x, db = "protein", retries = 4), USE.
 
 }
 \seealso{
-\code{\link{refseq_protein2mRNA}} to obtain the transcript accessions that encode a set of protein accessions.
+\code{\link{refseq_protein2RNA}} to obtain the transcript accessions that encode a set of protein accessions.
 
-\code{\link{refseq_mRNA2protein}} to obtain the protein accessions encoded by a set of transcript accessions.
+\code{\link{refseq_RNA2protein}} to obtain the protein accessions encoded by a set of transcript accessions.
 }
 \author{
 Jose V. Die

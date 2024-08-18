@@ -21,7 +21,7 @@
 #'   }
 #'
 #' @seealso \code{\link{refseq_fromGene}} to obtain the XP or XM accession from a single gene id. accession.
-#' @seealso \code{\link{refseq_XPfromXM}} to obtain the XP ids encoded by a set of XM ids.
+#' @seealso \code{\link{refseq_mRNA2protein}} to obtain the XP ids encoded by a set of XM ids.
 #'
 #' @examples
 #' # Get several molecular features from a set of mRNA accessions
@@ -31,7 +31,6 @@
 #'
 #' @author Jose V. Die
 #'
-#' @export
 #'
 #' @importFrom tibble tibble
 

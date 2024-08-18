@@ -11,7 +11,7 @@
 # refseqR
 Common computational operations working with RefSeq (GenBank accessions, NCBI).  
 
-### Installation 
+## Installation 
 Get the released version from CRAN:  
 ```{r}
 install.packages("refseqR")
@@ -23,7 +23,7 @@ devtools::install_github("jdieramon/refseqR")
 ```
 
 
-### Citation
+## Citation
 If you use `refseqR` in your research, please consider to cite it : 
 ```{r}
 Die JV (2024) refseqR: Common Computational Operations Working with RefSeq Entries (GenBank). DOI: 10.32614/CRAN.package.refseqR
