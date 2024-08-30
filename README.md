@@ -27,7 +27,9 @@ devtools::install_github("jdieramon/refseqR")
 
 
 ## Citation
-If you use `refseqR` in your research, please consider to cite it : 
+The `refseqR` manuscript has been published in Bioinformatics Advances. If you use `refseqR` in your research, please consider citing it : 
+
+
 ```{r}
-Die JV (2024) refseqR: Common Computational Operations Working with RefSeq Entries (GenBank). DOI: 10.32614/CRAN.package.refseqR
+Jose V Die, refseqR: An R package for common computational operations with records on RefSeq collection, Bioinformatics Advances, 2024;, vbae122, https://doi.org/10.1093/bioadv/vbae122
 ```
