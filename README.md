@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/devel%20version-1.1.4-blue.svg)](https://github.com/jdieramon/refseqR) [![](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![](https://img.shields.io/badge/devel%20version-1.1.6-blue.svg)](https://github.com/jdieramon/refseqR) [![](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
   
