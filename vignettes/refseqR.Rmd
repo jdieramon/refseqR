@@ -58,7 +58,7 @@ The protein ids. for `r GeneID` = `r protein`.
  
   
 The function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a transcript, protein, or Gene identifier.
-```{r}
+```{r, eval=FALSE}
 id <- c("LOC101512347")
 refseq_description(id)
 ```
@@ -72,7 +72,7 @@ It is important to note that gene symbols (e.x. "LOC105852298") are not unique, 
 ### 2. Transcript
 Using the `rentrez` package, we can fetch data from NCBI. Here, the first 30 lines for accession "XM_004487701" :
 
-```{r}
+```{r eval=FALSE}
 mrna_gb <- rentrez::entrez_fetch(db= 'nuccore', id = "XM_004487701", rettype = 'gp') 
 strsplit(mrna_gb, "\n")[[1]][1:30]
 ```
@@ -86,7 +86,7 @@ refseq_mRNAfeat(transcript, feat)
 ```
 
 Another interesting function is `refseq_RNA2protein`, which retrieves the protein accession associated with the provided mRNA.
-```{r}
+```{r, eval=FALSE}
 transcript <- "XM_004487701"
 refseq_RNA2protein(transcript)
 ```
@@ -100,6 +100,7 @@ refseq_CDSseq(transcript)
 ```
 Here, the first 500 nucleotides of the mRNA 'XM_004487701': 
 ```{r} 
+transcript <- "XM_004487701"
 mrna_fasta = rentrez::entrez_fetch(db="nuccore", id=transcript, rettype="fasta")
 # take a look at the first 500 chars. 
 cat(strwrap(substr(mrna_fasta, 1, 500)), sep="\n")
@@ -109,7 +110,7 @@ Here, the first 60 nucleotides of the CDS from the mRNA 'XM_004487701':
 substr(toString(refseq_CDSseq(transcript)), 1, 60)
 ```
 As previously said, the function `refseq_description` returns the sequence description corresponding to a given accession. The identifier (id) can be either a transcript, protein, or Gene identifier.
-```{r}
+```{r, eval=FALSE}
 id <- "XM_004487701"
 refseq_description(id)
 ```
@@ -118,13 +119,13 @@ refseq_description(id)
 
 Similarly to nucleotide sequences, `refseq_protein2RNA`, retrieves the mRNA associated with the provided protein accession.
 
-```{r}
+```{r, eval = FALSE}
 protein <- "XP_020244413"
 refseq_protein2RNA(protein)
 ```
 
 Two specific functions prove useful for managing protein accessions: `refseq_AAlen` offers the amino acid length of the sequence, while `refseq_mol.wt` provides the molecular weight in Daltons.
-```{r}
+```{r, eval=FALSE}
 refseq_AAlen(protein)
 refseq_AAmol_wt(protein)
 ```
@@ -136,7 +137,7 @@ refseq_AAseq(protein)
 
 
 As previously mentioned, the `refseq_description` function ultimately provides the sequence description associated with a given accession. The identifier (id) can take the form of either a transcript, protein, or Gene identifier.
-```{r}
+```{r, eval=FALSE}
 id <- "XP_020244413"
 refseq_description(id)
 ```

@@ -15,6 +15,7 @@
 #' @seealso \code{\link{refseq_RNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
 #'
 #' @examples
+#' \dontrun{
 #'  # Get the sequence descriptions from a set of transcript accessions
 #'  transcript = c("XM_004487701")
 #'  sapply(transcript, function(x) refseq_description(x), USE.NAMES = FALSE)
@@ -23,7 +24,6 @@
 #'  protein = c("XP_004487758")
 #'  sapply(protein, function(x) refseq_description(x), USE.NAMES = FALSE)
 #'
-#' \donttest{
 #' #' # Get the sequence descriptions from a set of Gene accessions
 #' locs <- c("LOC101512347", "LOC101506901")
 #' sapply(locs, function(x) refseq_description(x), USE.NAMES = FALSE)}

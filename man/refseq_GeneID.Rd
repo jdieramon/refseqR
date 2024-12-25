@@ -22,13 +22,14 @@ A character vector containing the GeneID corresponding to the specified accessio
 Depending on the function, available accessions in \code{refseqR} include RefSeq models with the prefixes XM_ (mRNA), XR_ (non-coding RNA), and XP_ (protein), as well as subsequently curated RefSeq records with NM_, NR_, or NP_ accession prefixes.
 }
 \examples{
+\dontrun{
 # Get the gene symbol from a set of transcript accessions
-transcript = c("XM_004487701", "XM_004488493")
+transcript = c("XM_004487701")
 sapply(transcript, function(x) refseq_GeneID (x, db = "nuccore", retries = 4), USE.NAMES = FALSE)
 
 # Get the gene symbol from a set of protein accessions
 protein = c("XP_004487758")
-sapply(protein, function(x) refseq_GeneID (x, db = "protein", retries = 4), USE.NAMES = FALSE)
+sapply(protein, function(x) refseq_GeneID (x, db = "protein", retries = 4), USE.NAMES = FALSE)}
 
 }
 \seealso{

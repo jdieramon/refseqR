@@ -23,9 +23,10 @@
 #'  protein <- "XP_020244413"
 #'  refseq_AAmol_wt(protein)
 #'
+#' \donttest{
 #'  # Get the molecular weight from from a set of protein accessions
 #'  protein = c("XP_004487758", "XP_004488550")
-#'  sapply(protein, function(x) refseq_AAmol_wt(x), USE.NAMES = TRUE)
+#'  sapply(protein, function(x) refseq_AAmol_wt(x), USE.NAMES = TRUE)}
 #'
 #' @author Jose V. Die
 #'

@@ -18,6 +18,7 @@ A character vector containing the sequence description corresponding to the spec
 Depending on the function, available accessions in \code{refseqR} include RefSeq models with the prefixes transcript_ (mRNA), XR_ (non-coding RNA), and XP_ (protein), as well as subsequently curated RefSeq records with NM_, NR_, or NP_ accession prefixes.
 }
 \examples{
+\dontrun{
  # Get the sequence descriptions from a set of transcript accessions
  transcript = c("XM_004487701")
  sapply(transcript, function(x) refseq_description(x), USE.NAMES = FALSE)
@@ -26,7 +27,6 @@ Depending on the function, available accessions in \code{refseqR} include RefSeq
  protein = c("XP_004487758")
  sapply(protein, function(x) refseq_description(x), USE.NAMES = FALSE)
 
-\donttest{
 #' # Get the sequence descriptions from a set of Gene accessions
 locs <- c("LOC101512347", "LOC101506901")
 sapply(locs, function(x) refseq_description(x), USE.NAMES = FALSE)}

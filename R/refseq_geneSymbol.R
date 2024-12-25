@@ -14,13 +14,14 @@
 #' @seealso \code{\link{refseq_RNA2protein}} to obtain the protein ids encoded by a set of transcript ids.
 #'
 #' @examples
+#' \donttest{
 #' # Get the gene symbol from a set of transcript accessions
 #' id = c("XM_004487701", "XM_004488493")
 #' sapply(id, function(x) refseq_geneSymbol (x, db = "nuccore"), USE.NAMES = FALSE)
 #'
 #' # Get the gene symbol from a set of XP accessions
 #' id = c("XP_004487758")
-#' sapply(id, function(x) refseq_geneSymbol (x, db = "protein"), USE.NAMES = FALSE)
+#' sapply(id, function(x) refseq_geneSymbol (x, db = "protein"), USE.NAMES = FALSE)}
 #'
 #' @author Jose V. Die
 #'

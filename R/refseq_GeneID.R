@@ -17,13 +17,14 @@
 #' @seealso \code{\link{refseq_RNA2protein}} to obtain the protein accessions encoded by a set of transcript accessions.
 #'
 #' @examples
+#' \dontrun{
 #' # Get the gene symbol from a set of transcript accessions
-#' transcript = c("XM_004487701", "XM_004488493")
+#' transcript = c("XM_004487701")
 #' sapply(transcript, function(x) refseq_GeneID (x, db = "nuccore", retries = 4), USE.NAMES = FALSE)
 #'
 #' # Get the gene symbol from a set of protein accessions
 #' protein = c("XP_004487758")
-#' sapply(protein, function(x) refseq_GeneID (x, db = "protein", retries = 4), USE.NAMES = FALSE)
+#' sapply(protein, function(x) refseq_GeneID (x, db = "protein", retries = 4), USE.NAMES = FALSE)}
 #'
 #' @author Jose V. Die
 #'

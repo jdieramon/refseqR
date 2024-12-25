@@ -18,11 +18,11 @@ A character vector containing the protein id encoded by the mRNA especified as \
 Depending on the function, available accessions in \code{refseqR} include RefSeq models with the prefixes XM_ (mRNA), XR_ (non-coding RNA), and XP_ (protein), as well as subsequently curated RefSeq records with NM_, NR_, or NP_ accession prefixes.
 }
 \examples{
+ \dontrun{
  # Get the protein id from a single transcript accession
  transcript <- "XM_004487701"
  refseq_RNA2protein(transcript)
 
- \donttest{
  # Get the protein ids from a set of transcript accessions
  transcript = c("XM_004487701", "XM_004488493")
  sapply(transcript, function(x) refseq_RNA2protein(x), USE.NAMES = FALSE) }

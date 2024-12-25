@@ -18,13 +18,14 @@ A character vector containing the gene symbol corresponding to the especified ac
 \code{refseq_geneSymbol()} Returns the gene symbol from a single Gene id. accession.
 }
 \examples{
+\donttest{
 # Get the gene symbol from a set of transcript accessions
 id = c("XM_004487701", "XM_004488493")
 sapply(id, function(x) refseq_geneSymbol (x, db = "nuccore"), USE.NAMES = FALSE)
 
 # Get the gene symbol from a set of XP accessions
 id = c("XP_004487758")
-sapply(id, function(x) refseq_geneSymbol (x, db = "protein"), USE.NAMES = FALSE)
+sapply(id, function(x) refseq_geneSymbol (x, db = "protein"), USE.NAMES = FALSE)}
 
 }
 \seealso{
