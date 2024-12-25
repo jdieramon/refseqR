@@ -32,7 +32,7 @@ refseq_CDScoords <- function(transcript) {
   start <- c()
   stop <- c()
   version <- c()
-
+  
   # loop over the elements of the input
   for (x in transcript) {
     # get the character vector containing the fetched record
@@ -40,25 +40,27 @@ refseq_CDScoords <- function(transcript) {
     # remove whitespaces from the string
     listName <- gsub(" ", "", target)
     listName <- strsplit(listName, "\n")
-
+    
     cds <- grep("^CDS", listName[[1]], value = TRUE)
-    if (length(cds) != 1) {
+    filtered_cds <- cds[!grepl("CDSuses", cds)]
+    
+    if (length(filtered_cds) != 1) {
       stop("Exactly one CDS per file is expected. Contact the maintainer")
-    }
-
+    } 
+    
     # remove characters "CDS" from the string
-    cds <- gsub("CDS", "", cds)
+    cds <- gsub("CDS", "", filtered_cds)
     # remove special symbols ".." from the string
     cds <- strsplit(cds, "..", fixed = TRUE)
-
+    
     # elements 1-3 of the list contain the start/stop coordinates
     start <- c(start, as.numeric(cds[[1]][1]))
     stop <- c(stop, as.numeric(cds[[1]][2]))
     vxm <- grep("VERSION", listName[[1]], fixed = TRUE, value = TRUE)
     version <- c(version, gsub("VERSION", "", vxm, fixed = TRUE))
-
+    
   }
-
+  
   # Build IRanges object
   IRanges::IRanges(start = start, end = stop, names = version)
 }
